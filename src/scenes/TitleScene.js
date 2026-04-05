@@ -62,10 +62,6 @@ export default class TitleScene extends Phaser.Scene {
   }
 
   _startGame() {
-    // Request fullscreen synchronously within the user gesture so Chrome Android honours it
-    if (this.scale.fullscreenEnabled && !this.scale.isFullscreen) {
-      this.scale.startFullscreen()
-    }
     this.scene.start('Level1Scene')
   }
 }

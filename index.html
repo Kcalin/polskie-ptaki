@@ -81,20 +81,26 @@
     <script type="module" src="/src/main.js"></script>
 
     <script>
-      // Request fullscreen on first user interaction, then lock to landscape
-      // (orientation.lock requires fullscreen to be active on Chrome Android)
-      function tryFullscreen() {
+      // Hide browser chrome on first interaction
+      // Chrome Android: requestFullscreen hides the address bar
+      // iOS Safari: fullscreen API not supported — scrollTo(0,1) as fallback
+      function tryHideChrome() {
         const el = document.documentElement
-        const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen
-        if (!req) return
-        req.call(el).then(() => {
-          if (screen.orientation && screen.orientation.lock) {
-            screen.orientation.lock('landscape').catch(() => {})
-          }
-        }).catch(() => {})
+        const req = el.requestFullscreen || el.webkitRequestFullscreen
+        if (req) {
+          req.call(el).then(() => {
+            if (screen.orientation && screen.orientation.lock) {
+              screen.orientation.lock('landscape').catch(() => {})
+            }
+          }).catch(() => {
+            window.scrollTo(0, 1)
+          })
+        } else {
+          window.scrollTo(0, 1)
+        }
       }
-      document.addEventListener('touchstart',  tryFullscreen, { once: true, passive: true })
-      document.addEventListener('pointerdown', tryFullscreen, { once: true })
+      document.addEventListener('touchstart',  tryHideChrome, { once: true, passive: true })
+      document.addEventListener('pointerdown', tryHideChrome, { once: true })
     </script>
   </body>
 </html>

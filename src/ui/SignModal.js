@@ -43,7 +43,8 @@ export default class SignModal {
     this._gfx           = null
     this._overlay       = null
     this._leftKey = this._rightKey = this._upKey = this._downKey =
-    this._enterKey = this._spaceKey = this._escKey = null
+    this._enterKey = this._spaceKey = this._escKey =
+    this._aKey = this._dKey = this._wKey = this._sKey = null
   }
 
   // ─── Public ──────────────────────────────────────────────────────────────────
@@ -80,11 +81,19 @@ export default class SignModal {
     this._enterKey = this.scene.input.keyboard.addKey(K.ENTER)
     this._spaceKey = this.scene.input.keyboard.addKey(K.SPACE)
     this._escKey   = this.scene.input.keyboard.addKey(K.ESC)
+    this._aKey     = this.scene.input.keyboard.addKey(K.A)
+    this._dKey     = this.scene.input.keyboard.addKey(K.D)
+    this._wKey     = this.scene.input.keyboard.addKey(K.W)
+    this._sKey     = this.scene.input.keyboard.addKey(K.S)
 
     this._leftKey.on('down',  () => this._navigate(-1))
     this._rightKey.on('down', () => this._navigate(1))
+    this._aKey.on('down',     () => this._navigate(-1))
+    this._dKey.on('down',     () => this._navigate(1))
     this._upKey.on('down',    () => this._quizMove(-1))
     this._downKey.on('down',  () => this._quizMove(1))
+    this._wKey.on('down',     () => this._quizMove(-1))
+    this._sKey.on('down',     () => this._quizMove(1))
     this._enterKey.on('down', () => this._quizConfirm())
     this._spaceKey.on('down', () => this._quizConfirm())
     this._escKey.once('down', () => this.close())
@@ -94,7 +103,8 @@ export default class SignModal {
     if (!this._active) return
     this._active = false
     ;[this._leftKey, this._rightKey, this._upKey, this._downKey,
-      this._enterKey, this._spaceKey, this._escKey]
+      this._enterKey, this._spaceKey, this._escKey,
+      this._aKey, this._dKey, this._wKey, this._sKey]
       .forEach(k => k?.removeAllListeners())
     this._overlay?.destroy()
     this._gfx?.destroy()

@@ -48,7 +48,7 @@ export default class TitleScene extends Phaser.Scene {
     // ── Controls legend — dark bg for readability ─────────────────────────────
     const legendY = height - 38
     this.add.rectangle(width / 2, legendY, width, 52, 0x000000, 0.55)
-    this.add.text(width / 2, legendY - 8, '← → bieg     ↑ skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
+    this.add.text(width / 2, legendY - 8, '← → / A D  bieg     ↑ / W  skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
       fontSize: '13px',
       fontFamily: '"Courier New", monospace',
       color: '#ffdd00',

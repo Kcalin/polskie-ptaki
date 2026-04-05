@@ -11,6 +11,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     this.body.setOffset(14, 6)
 
     this.cursors = scene.input.keyboard.createCursorKeys()
+    const K = Phaser.Input.Keyboard.KeyCodes
+    this._wasd = {
+      up:    scene.input.keyboard.addKey(K.W),
+      left:  scene.input.keyboard.addKey(K.A),
+      right: scene.input.keyboard.addKey(K.D),
+    }
     this.isOnGround = false
 
     this._animState = null
@@ -31,10 +37,10 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     // Don't override horizontal velocity while a special boost is active
     const now = this.scene.time.now
     if (!this._boostUntil || now > this._boostUntil) {
-      if (this.cursors.left.isDown) {
+      if (this.cursors.left.isDown || this._wasd.left.isDown) {
         this.setVelocityX(-GAME_CONFIG.playerSpeed)
         this.setFlipX(true)
-      } else if (this.cursors.right.isDown) {
+      } else if (this.cursors.right.isDown || this._wasd.right.isDown) {
         this.setVelocityX(GAME_CONFIG.playerSpeed)
         this.setFlipX(false)
       } else {
@@ -42,7 +48,9 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.up) && onGround) {
+    const jumpPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up)
+                     || Phaser.Input.Keyboard.JustDown(this._wasd.up)
+    if (jumpPressed && onGround) {
       this.setVelocityY(GAME_CONFIG.jumpVelocity)
     }
 

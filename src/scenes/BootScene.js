@@ -4,50 +4,27 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // Player sprites
-    this.load.image('bocian_idle',   'assets/sprites/bocian_idle.png')
-    this.load.image('bocian_jump',   'assets/sprites/bocian_jump.png')
-    this.load.image('bocian_gust',   'assets/sprites/bocian_gust.png')
-    for (let i = 0; i < 4; i++) this.load.image(`bocian_idle_${i}`,  `assets/sprites/bocian_idle_${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`bocian_walk_${i}`,  `assets/sprites/bocian_walk_${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`bocian_walk_b${i}`, `assets/sprites/bocian_walk_b${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`bocian_walk_d${i}`, `assets/sprites/bocian_walk_d${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`bocian_walk_e${i}`, `assets/sprites/bocian_walk_e${i}.png`)
-
-    // Batalion sprites
+    // Batalion sprites (player)
     this.load.image('batalion_idle', 'assets/sprites/batalion_idle_0.png')
     this.load.image('batalion_jump', 'assets/sprites/batalion_jump.png')
     this.load.image('batalion_fall', 'assets/sprites/batalion_fall.png')
     this.load.image('batalion_skid', 'assets/sprites/batalion_skid.png')
-    this.load.image('batalion_run',  'assets/sprites/batalion_run.png')
-    for (let i = 0; i < 4; i++) this.load.image(`batalion_idle_${i}`, `assets/sprites/batalion_idle_${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`batalion_walk_${i}`, `assets/sprites/batalion_walk_${i}.png`)
-    for (let i = 0; i < 4; i++) this.load.image(`batalion_legs_${i}`, `assets/sprites/batalion_legs_${i}.png`)
+    for (let i = 0; i < 4; i++) this.load.image(`batalion_idle_${i}`,     `assets/sprites/batalion_idle_${i}.png`)
     for (let i = 0; i < 4; i++) this.load.image(`batalion_grok_walk_${i}`, `assets/sprites/batalion_grok_walk_${i}.png`)
 
     // Enemy sprites — fox
     this.load.image('fox_idle', 'assets/sprites/fox_idle.png')
     for (let i = 0; i < 4; i++) this.load.image(`fox_walk_${i}`, `assets/sprites/fox_walk_${i}.png`)
 
-    // Enemy sprites — crow (kept for backward compat)
-    this.load.image('crow_idle', 'assets/sprites/crow_idle.png')
-    for (let i = 0; i < 4; i++) this.load.image(`crow_walk_${i}`, `assets/sprites/crow_walk_${i}.png`)
-
     // Enemy sprites — wolf (platform enemy)
     this.load.image('wolf_idle', 'assets/sprites/wolf_idle.png')
     for (let i = 0; i < 4; i++) this.load.image(`wolf_walk_${i}`, `assets/sprites/wolf_walk_${i}.png`)
-
-    // Gust effect frames (PixelLab wind sprites)
-    this.load.image('gust_f1', 'assets/sprites/gust_f1.png')
-    this.load.image('gust_f2', 'assets/sprites/gust_f2.png')
-    this.load.image('gust_f3', 'assets/sprites/gust_f3.png')
 
     // Tiles
     this.load.image('ground',   'assets/sprites/tile_ground.png')
     this.load.image('platform', 'assets/sprites/tile_platform.png')
 
     // Backgrounds
-    this.load.image('bg_sky',    'assets/sprites/bg_biebrza_sky.png')
     this.load.image('bg_marsh',  'assets/sprites/bg_biebrza_marsh.png')
     this.load.image('bg_level1',    'assets/sprites/bg_level1.png')
     this.load.image('bg_level1_v2', 'assets/sprites/bg_level1_v2.png')
@@ -61,13 +38,6 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('sign',        'assets/sprites/sign_wooden.png')
     this.load.image('sign_hidden', 'assets/sprites/sign_golden.png')
     this.load.image('feather',     'assets/sprites/feather_spring.png')
-
-    // Menu UI sprites (PixelLab generated)
-    this.load.image('ui_logo_banner',  'assets/sprites/ui_logo_banner2.png')
-    this.load.image('ui_btn_start',    'assets/sprites/ui_btn_start.png')
-    this.load.image('ui_mascot',       'assets/sprites/ui_mascot.png')
-    this.load.image('ui_line_polskie', 'assets/sprites/ui_line_polskie_a.png')
-    this.load.image('ui_line_ptaki',   'assets/sprites/ui_line_ptaki.png')
 
     // Audio
     this.load.audio('bg_level1', 'assets/audio/bg_level1.mp3')
@@ -142,34 +112,6 @@ export default class BootScene extends Phaser.Scene {
 
   _registerAnimations() {
     this.anims.create({
-      key: 'bocian_idle_anim',
-      frames: Array.from({ length: 4 }, (_, i) => ({ key: `bocian_idle_${i}` })),
-      frameRate: 6,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: 'bocian_walk',
-      frames: Array.from({ length: 4 }, (_, i) => ({ key: `bocian_idle_${i}` })),
-      frameRate: 10,
-      repeat: -1,
-    })
-
-    this.anims.create({
-      key: 'bocian_jump',
-      frames: [{ key: 'bocian_jump' }],
-      frameRate: 1,
-      repeat: 0,
-    })
-
-    this.anims.create({
-      key: 'bocian_gust',
-      frames: [{ key: 'bocian_gust' }],
-      frameRate: 1,
-      repeat: 0,
-    })
-
-    this.anims.create({
       key: 'fox_walk',
       frames: Array.from({ length: 4 }, (_, i) => ({ key: `fox_walk_${i}` })),
       frameRate: 8,
@@ -182,20 +124,6 @@ export default class BootScene extends Phaser.Scene {
       frameRate: 1,
       repeat: -1,
     })
-
-    // Crow animations (registered only if texture loaded without error)
-    if (this.textures.exists('crow_idle')) {
-      this.anims.create({
-        key: 'crow_walk',
-        frames: Array.from({ length: 4 }, (_, i) => ({ key: `crow_walk_${i}` })),
-        frameRate: 8, repeat: -1,
-      })
-      this.anims.create({
-        key: 'crow_idle',
-        frames: [{ key: 'crow_idle' }],
-        frameRate: 1, repeat: -1,
-      })
-    }
 
     if (this.textures.exists('batalion_idle_0')) {
       this.anims.create({
@@ -221,21 +149,6 @@ export default class BootScene extends Phaser.Scene {
       this.anims.create({
         key: 'batalion_skid',
         frames: [{ key: 'batalion_skid' }],
-        frameRate: 1, repeat: -1,
-      })
-      this.anims.create({
-        key: 'batalion_run',
-        frames: [{ key: 'batalion_run' }],
-        frameRate: 1, repeat: -1,
-      })
-      this.anims.create({
-        key: 'batalion_legs_walk',
-        frames: Array.from({ length: 4 }, (_, i) => ({ key: `batalion_legs_${i}` })),
-        frameRate: 10, repeat: -1,
-      })
-      this.anims.create({
-        key: 'batalion_legs_idle',
-        frames: [{ key: 'batalion_legs_0' }],
         frameRate: 1, repeat: -1,
       })
     }

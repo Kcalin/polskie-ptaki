@@ -1,7 +1,7 @@
 import { GAME_CONFIG } from '../config.js'
 
 export default class Bird extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, idleKey = 'bocian_idle') {
+  constructor(scene, x, y, idleKey = 'batalion_idle') {
     super(scene, x, y, idleKey)
     scene.add.existing(this)
     scene.physics.add.existing(this)
@@ -50,12 +50,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
   }
 
   // Subclasses override any of these; null = fallback to next in chain
-  get _idleAnimKey() { return 'bocian_idle_anim' }
-  get _walkAnimKey() { return 'bocian_walk' }
-  get _runAnimKey()  { return null }                // fallback → walk
-  get _jumpAnimKey() { return 'bocian_jump' }
-  get _fallAnimKey() { return null }                // fallback → jump
-  get _skidAnimKey() { return null }                // fallback → walk
+  get _idleAnimKey() { return null }
+  get _walkAnimKey() { return null }
+  get _runAnimKey()  { return null }
+  get _jumpAnimKey() { return null }
+  get _fallAnimKey() { return null }
+  get _skidAnimKey() { return null }
 
   _animKeyFor(state) {
     switch (state) {

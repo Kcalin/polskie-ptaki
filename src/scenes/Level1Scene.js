@@ -35,15 +35,6 @@ export default class Level1Scene extends Phaser.Scene {
     // Enemies
     this._buildEnemies(height)
 
-    // Wire gust callback so Bocian can defeat enemies in radius
-    this.player.onGust = (cx, cy, radius) => {
-      for (const enemy of this.enemies.getChildren()) {
-        if (Phaser.Math.Distance.Between(cx, cy, enemy.x, enemy.y) < radius) {
-          enemy.defeat?.()
-        }
-      }
-    }
-
     // Wire display callback so Batalion can stun enemies in radius
     this.player.onDisplay = (cx, cy, radius, stunDuration) => {
       for (const enemy of this.enemies.getChildren()) {

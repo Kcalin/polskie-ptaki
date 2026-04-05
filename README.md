@@ -86,7 +86,7 @@ Bird photos are sourced from Wikimedia Commons under Creative Commons licenses. 
 
 ## Deployment
 
-The project auto-deploys to [polskieptaki.pl](https://polskieptaki.pl) via FTP on every push to `main` (see `.github/workflows/deploy.yml`). It also deploys to [Netlify](https://clever-cheesecake-4f6fe2.netlify.app/).
+The project auto-deploys to [polskieptaki.pl](https://polskieptaki.pl) via [Netlify](https://netlify.com), which watches the `main` branch and builds on every push.
 
 ---
 

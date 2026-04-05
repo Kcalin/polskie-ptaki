@@ -1,7 +1,7 @@
 {
   "name": "polskie-ptaki",
   "version": "0.1.0",
-  "description": "Gra platformowa 2D pixel art o polskich ptakach i parkach narodowych",
+  "description": "2D pixel-art platformer about Polish birds and national parks",
   "type": "module",
   "scripts": {
     "dev": "vite",

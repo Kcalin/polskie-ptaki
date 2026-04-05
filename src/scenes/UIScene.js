@@ -22,7 +22,7 @@ export default class UIScene extends Phaser.Scene {
     }
 
     // Level label — pixel-art feel with stroke
-    this.add.text(width / 2, 14, 'Biebrza — Wiosna', {
+    this.add.text(width / 2, 14, 'Biebrza — Spring', {
       fontSize: '16px',
       fontFamily: '"Courier New", monospace',
       color: '#ffffff',

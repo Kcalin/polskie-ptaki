@@ -200,7 +200,7 @@ export default class SignModal {
     // Hint (bottom center)
     this._add(this.scene.add.text(
       this._sx + MW / 2, this._sy + MH - BORDER - 4,
-      '← → zmień stronę   •   ESC zamknij',
+      '← → change page   •   ESC close',
       { fontSize: '11px', fontFamily: FONT, color: C.hint }
     ).setOrigin(0.5, 1))
   }
@@ -237,7 +237,7 @@ export default class SignModal {
       yOff += 22
     }
     if (page.type === 'threat') {
-      const badge = page.severity === 'high' ? '!! ZAGROŻENIE !!' : '! Uwaga !'
+      const badge = page.severity === 'high' ? '!! THREAT !!' : '! Warning !'
       this._add(this.scene.add.text(tx, yOff, badge,
         { fontSize: '12px', fontFamily: FONT, color: titleColor }))
       yOff += 20
@@ -264,7 +264,7 @@ export default class SignModal {
     // Navigation hint for quiz
     if (!this._quizAnswered) {
       this._add(this.scene.add.text(ix + iw, iy + 26,
-        '↑↓ zaznacz\nENTER wybierz',
+        '↑↓ select\nENTER confirm',
         { fontSize: '11px', fontFamily: FONT, color: C.hint, align: 'right' }
       ).setOrigin(1, 0))
     }

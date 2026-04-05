@@ -37,9 +37,9 @@ Ostatnia aktualizacja: 5 kwietnia 2026
 - [ ] Deploy na GitHub Pages
 
 ### Pierwsza grafika PixelLab [DO ZROBIENIA ⬜]
-- [ ] Sprite bociana (idle + run + jump) — 48×48 px
-- [ ] Tileset wiosna — podstawowy zestaw (16 kafelków)
-- [ ] Tło Level 1 — prosta panorama Biebrzy
+- [ ] Sprite bociana (idle + run + jump) — 48×48 px  ← wymaga PixelLab.ai
+- [ ] Tileset wiosna — podstawowy zestaw (16 kafelków)  ← wymaga PixelLab.ai
+- [ ] Tło Level 1 — prosta panorama Biebrzy  ← wymaga PixelLab.ai
 
 ---
 
@@ -51,7 +51,7 @@ Ostatnia aktualizacja: 5 kwietnia 2026
 - [ ] `TitleScene.js` — ekran tytułowy z animowanym tłem
 - [ ] `BirdSelectScene.js` — wybór ptaka z kartami statystyk
 - [ ] `UIScene.js` — HUD (serca, pasek energii, minimap)
-- [ ] `SignScene.js` — modal tabliczki (4 strony + quiz)
+- [x] `SignModal.js` — modal tabliczki (4 strony + quiz) ✅
 - [ ] `EndScene.js` — ekran nagrody z animacją pióra feniksa
 
 ### Ptaki (6 klas)
@@ -64,10 +64,10 @@ Ostatnia aktualizacja: 5 kwietnia 2026
 
 ### Levele (4)
 - [ ] Level 1 — Biebrza (wiosna) — PRIORYTET MVP
-  - [ ] Mapa Tiled (6400×720)
-  - [ ] Wróg: Fox.js
-  - [ ] 5 tabliczek (dane z EDUCATION.md gotowe)
-  - [ ] Pióro feniksa pickup
+  - [ ] Mapa Tiled (6400×720) — placeholder platformy działają, czeka na Tiled
+  - [x] Wróg: Fox.js — patrol + knockback ✅
+  - [x] 5 tabliczek (dane z EDUCATION.md gotowe) ✅
+  - [x] Pióro feniksa pickup ✅
 - [ ] Level 2 — Słowiński PN (lato)
   - [ ] Mapa Tiled (7040×720) z ruchomymi platformami
   - [ ] Wróg: Seagull.js (latający)

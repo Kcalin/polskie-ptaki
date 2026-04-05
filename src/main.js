@@ -10,6 +10,10 @@ const config = {
   width: GAME_CONFIG.width,
   height: GAME_CONFIG.height,
   backgroundColor: '#1a1a2e',
+  render: {
+    pixelArt: true,
+    antialias: false,
+  },
   physics: {
     default: 'arcade',
     arcade: {

@@ -4,69 +4,81 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const g = this.make.graphics({ x: 0, y: 0, add: false })
+    // Player sprites
+    this.load.image('bocian_idle',   'assets/sprites/bocian_idle.png')
+    this.load.image('bocian_jump',   'assets/sprites/bocian_jump.png')
+    for (let i = 0; i < 4; i++) this.load.image(`bocian_idle_${i}`, `assets/sprites/bocian_idle_${i}.png`)
+    for (let i = 0; i < 6; i++) this.load.image(`bocian_walk_${i}`, `assets/sprites/bocian_walk_${i}.png`)
 
-    const make = (key, w, h, fillFn) => {
-      g.clear()
-      fillFn(g)
-      g.generateTexture(key, w, h)
-    }
+    // Enemy sprites
+    this.load.image('fox_idle', 'assets/sprites/fox_idle.png')
+    for (let i = 0; i < 4; i++) this.load.image(`fox_walk_${i}`, `assets/sprites/fox_walk_${i}.png`)
 
-    // Player (bocian) — white body, black wingtips
-    make('bocian', 48, 48, (g) => {
-      g.fillStyle(0xffffff); g.fillRect(8, 8, 32, 32)
-      g.fillStyle(0x222222); g.fillRect(0, 16, 8, 8); g.fillRect(40, 16, 8, 8)
-      g.fillStyle(0xff4444); g.fillRect(20, 4, 8, 8)  // red head top
-      g.fillStyle(0xff8800); g.fillRect(24, 8, 10, 4) // orange beak
+    // Tiles
+    this.load.image('ground',   'assets/sprites/tile_ground.png')
+    this.load.image('platform', 'assets/sprites/tile_platform.png')
+
+    // Backgrounds
+    this.load.image('bg_sky',   'assets/sprites/bg_biebrza_sky.png')
+    this.load.image('bg_marsh', 'assets/sprites/bg_biebrza_marsh.png')
+
+    // Decorations
+    this.load.image('deco_reed', 'assets/sprites/deco_reed.png')
+
+    // UI / pickups
+    this.load.image('sign',        'assets/sprites/sign_wooden.png')
+    this.load.image('sign_hidden', 'assets/sprites/sign_golden.png')
+    this.load.image('feather',     'assets/sprites/feather_spring.png')
+
+    // Fallback: generate any missing texture as colored rectangle
+    this.load.on('loaderror', (file) => {
+      console.warn(`Asset missing, using placeholder: ${file.key}`)
+      const g = this.make.graphics({ add: false })
+      g.fillStyle(0xff00ff); g.fillRect(0, 0, 64, 64)
+      g.generateTexture(file.key, 64, 64)
+      g.destroy()
     })
-
-    // Ground — dark green with grass top
-    make('ground', 16, 16, (g) => {
-      g.fillStyle(0x5d4037); g.fillRect(0, 0, 16, 16)
-      g.fillStyle(0x558b2f); g.fillRect(0, 0, 16, 4)
-    })
-
-    // Platform — wooden brown
-    make('platform', 16, 16, (g) => {
-      g.fillStyle(0x795548); g.fillRect(0, 0, 16, 16)
-      g.fillStyle(0x6d4c41); g.fillRect(0, 0, 16, 2)
-    })
-
-    // Education sign — wooden post + sign board
-    make('sign', 24, 32, (g) => {
-      g.fillStyle(0x795548); g.fillRect(10, 16, 4, 16)  // post
-      g.fillStyle(0xffe082); g.fillRect(2, 2, 20, 16)   // board
-      g.fillStyle(0x5d4037); g.fillRect(2, 2, 20, 2)    // top edge
-      g.fillStyle(0x000000)
-      g.fillRect(5, 6, 14, 2)
-      g.fillRect(5, 10, 10, 2)
-    })
-
-    // Hidden sign — glowing golden
-    make('sign_hidden', 24, 32, (g) => {
-      g.fillStyle(0x795548); g.fillRect(10, 16, 4, 16)
-      g.fillStyle(0xffd700); g.fillRect(2, 2, 20, 16)
-      g.fillStyle(0xff8c00); g.fillRect(2, 2, 20, 2)
-    })
-
-    // Feather pickup — cyan teardrop
-    make('feather', 16, 20, (g) => {
-      g.fillStyle(0x00e5ff); g.fillEllipse(8, 10, 12, 16)
-      g.fillStyle(0xffffff); g.fillEllipse(8, 7, 5, 7)
-    })
-
-    // Fox — orange rectangle with darker ears
-    make('fox', 40, 28, (g) => {
-      g.fillStyle(0xe65100); g.fillRect(4, 8, 32, 18)  // body
-      g.fillStyle(0xbf360c); g.fillRect(0, 0, 10, 12)  // head
-      g.fillStyle(0xffffff); g.fillRect(2, 0, 4, 6)    // ear
-      g.fillStyle(0xe65100); g.fillRect(30, 8, 10, 8)  // tail base
-    })
-
-    g.destroy()
   }
 
   create() {
+    this._registerAnimations()
     this.scene.start('TitleScene')
+  }
+
+  _registerAnimations() {
+    this.anims.create({
+      key: 'bocian_idle_anim',
+      frames: Array.from({ length: 4 }, (_, i) => ({ key: `bocian_idle_${i}` })),
+      frameRate: 6,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'bocian_walk',
+      frames: Array.from({ length: 6 }, (_, i) => ({ key: `bocian_walk_${i}` })),
+      frameRate: 10,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'bocian_jump',
+      frames: [{ key: 'bocian_jump' }],
+      frameRate: 1,
+      repeat: 0,
+    })
+
+    this.anims.create({
+      key: 'fox_walk',
+      frames: Array.from({ length: 4 }, (_, i) => ({ key: `fox_walk_${i}` })),
+      frameRate: 8,
+      repeat: -1,
+    })
+
+    this.anims.create({
+      key: 'fox_idle',
+      frames: [{ key: 'fox_idle' }],
+      frameRate: 1,
+      repeat: -1,
+    })
   }
 }

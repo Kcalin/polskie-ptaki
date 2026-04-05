@@ -81,26 +81,24 @@
     <script type="module" src="/src/main.js"></script>
 
     <script>
-      // Hide browser chrome on first interaction
-      // Chrome Android: requestFullscreen hides the address bar
-      // iOS Safari: fullscreen API not supported — scrollTo(0,1) as fallback
-      function tryHideChrome() {
-        const el = document.documentElement
-        const req = el.requestFullscreen || el.webkitRequestFullscreen
-        if (req) {
-          req.call(el).then(() => {
+      // Chrome Android: requestFullscreen on first user gesture hides the address bar.
+      // iOS Safari: Fullscreen API not supported — no workaround without PWA.
+      // Guard with a flag so touchstart + pointerdown don't double-fire.
+      let _fsAttempted = false
+      function tryFullscreen() {
+        if (_fsAttempted) return
+        _fsAttempted = true
+        const el = document.getElementById('game-container')
+        if (document.fullscreenEnabled && el.requestFullscreen) {
+          el.requestFullscreen().then(() => {
             if (screen.orientation && screen.orientation.lock) {
               screen.orientation.lock('landscape').catch(() => {})
             }
-          }).catch(() => {
-            window.scrollTo(0, 1)
-          })
-        } else {
-          window.scrollTo(0, 1)
+          }).catch(() => {})
         }
       }
-      document.addEventListener('touchstart',  tryHideChrome, { once: true, passive: true })
-      document.addEventListener('pointerdown', tryHideChrome, { once: true })
+      document.addEventListener('touchstart',  tryFullscreen, { passive: true })
+      document.addEventListener('pointerdown', tryFullscreen)
     </script>
   </body>
 </html>

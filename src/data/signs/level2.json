@@ -1,0 +1,162 @@
+[
+  {
+    "id": "L2_S1",
+    "position": { "x": 700, "y": 420 },
+    "spriteVariant": "coastal",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Zimorodek",
+        "text": "Zimorodek to jeden z najpiękniejszych polskich ptaków! Ma turkusowe i pomarańczowe pióra. Tak szybko nurkuje w wodę po ryby, że ledwo go widać.",
+        "illustration": "zimorodek_dive",
+        "birdSound": "bird_zimorodek"
+      },
+      {
+        "type": "location",
+        "title": "Słowiński Park Narodowy",
+        "text": "Ten park słynie z wędrujących wydm! Góry piasku przesuwają się powoli w stronę lasu — nawet o kilka metrów na rok. To jedyne takie miejsce w Polsce.",
+        "illustration": "slowinski_dunes"
+      },
+      {
+        "type": "threat",
+        "title": "Plastik w morzu",
+        "text": "Plastikowe butelki i torby trafiają do morza. Ptaki morskie mylą je z jedzeniem i połykają. To jest dla nich bardzo niebezpieczne.",
+        "illustration": "threat_plastic",
+        "severity": "high"
+      },
+      {
+        "type": "quiz",
+        "question": "Co jest wyjątkowego w Słowińskim Parku?",
+        "answers": ["Wędrujące wydmy", "Największy wulkan", "Najgłębsze jezioro"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Tak! Wydmy wędrują jak żywe — to niesamowite!",
+        "feedbackWrong": "Słowiński Park słynie z wędrujących wydm piaskowych!"
+      }
+    ]
+  },
+  {
+    "id": "L2_S2",
+    "position": { "x": 2100, "y": 380 },
+    "spriteVariant": "coastal",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Mewa śmieszka",
+        "text": "Mewa śmieszka ma śmieszną czarną głowę latem! Zimą robi się biała z tylko czarną plamką. Mewy są bardzo głośne i kłótliwe — zawsze walczą o jedzenie.",
+        "illustration": "mewa_colony",
+        "birdSound": "bird_zuraw"
+      },
+      {
+        "type": "location",
+        "title": "Jezioro Łebsko",
+        "text": "Jezioro Łebsko leży tuż przy morzu, ale jest słodkowodne! Oddziela je od Bałtyku tylko wąski pas wydm. To ostoja dla kaczek, gęsi i mew.",
+        "illustration": "lebsko_lake"
+      },
+      {
+        "type": "threat",
+        "title": "Ocieplenie klimatu = mniejsze ryby",
+        "text": "Gdy morze jest za ciepłe, ryby odchodzą na północ. Mewy i inne ptaki morskie nie mają co jeść blisko brzegu.",
+        "illustration": "threat_warming",
+        "severity": "high"
+      },
+      {
+        "type": "quiz",
+        "question": "Jaki kolor ma głowa mewy śmieszki latem?",
+        "answers": ["Czarny", "Biały", "Czerwony"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Brawo! Dlatego nazywają ją 'śmieszką' — wygląda jakby miała kapelusz!",
+        "feedbackWrong": "Latem mewa śmieszka ma czarną głowę — jak kapelusz!"
+      }
+    ]
+  },
+  {
+    "id": "L2_S3",
+    "position": { "x": 3800, "y": 350 },
+    "spriteVariant": "coastal",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Latarnia w Czołpinie",
+        "text": "Na wydmach stoi stara latarnia morska. Latarnik opiekował się nią dawniej całą dobę. Dziś latarnia świeci automatycznie i pomaga statkom nie rozbić się o brzeg.",
+        "illustration": "czolpino_lighthouse"
+      },
+      {
+        "type": "location",
+        "title": "Wydmy wędrują",
+        "text": "Wydma Łącka ma ponad 40 metrów wysokości — tyle co 13-piętrowy blok! Wiatr przenosi piasek i wydma przesuwa się nawet 10 metrów rocznie.",
+        "illustration": "dune_movement"
+      },
+      {
+        "type": "threat",
+        "title": "Zadeptywanie wydm",
+        "text": "Gdy ludzie chodzą po wydmach poza ścieżkami, niszczą rośliny. Bez roślin piasek zaczyna lecieć wszędzie. Dlatego trzymamy się szlaków!",
+        "illustration": "threat_trampling",
+        "severity": "medium"
+      },
+      {
+        "type": "quiz",
+        "question": "Dlaczego nie wolno chodzić po wydmach poza ścieżkami?",
+        "answers": ["Niszczymy rośliny", "Jest za gorąco", "Możemy się zgubić"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Dokładnie! Rośliny trzymają piasek w miejscu.",
+        "feedbackWrong": "Chodzi o rośliny — gdy je niszczymy, piasek zaczyna wędrownie!"
+      }
+    ]
+  },
+  {
+    "id": "L2_S4",
+    "position": { "x": 5600, "y": 330 },
+    "spriteVariant": "coastal",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Rybitwa białoczelna",
+        "text": "Rybitwa to mały biały ptak nadmorski. Gniazdo robi prosto na piasku plaży! Dlatego na plażach w parkach wyznacza się strefy tylko dla ptaków.",
+        "illustration": "rybitwa_nest"
+      },
+      {
+        "type": "location",
+        "title": "Morze Bałtyckie",
+        "text": "Bałtyk to jedno z najmłodszych mórz na świecie. Jest mało słony w porównaniu do oceanów — można się w nim łatwo utopić, bo jest łatwiej pływać w słonej wodzie!",
+        "illustration": "baltic_map"
+      },
+      {
+        "type": "threat",
+        "title": "Hałas nad morzem",
+        "text": "Morskie turbiny wiatrowe i statki wydają duże hałasy pod wodą. To przeszkadza fok i delfinom, które słyszą pod wodą zamiast widzieć.",
+        "illustration": "threat_noise",
+        "severity": "medium"
+      },
+      {
+        "type": "quiz",
+        "question": "Gdzie rybitwa robi gniazdo?",
+        "answers": ["Prosto na piasku", "Na drzewie", "Na klifie"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Tak! Dlatego na plażach w parkach są strefy chronione dla ptaków.",
+        "feedbackWrong": "Rybitwa gniazduje prosto na piasku — bardzo odważny ptak!"
+      }
+    ]
+  },
+  {
+    "id": "L2_S5_HIDDEN",
+    "position": { "x": 6500, "y": 150 },
+    "spriteVariant": "golden",
+    "isHidden": true,
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Sekret: Orlik grubodzioby",
+        "text": "Orlik grubodzioby to bardzo rzadki orzeł — w Polsce żyje tylko kilka par! Poluje nad jeziorami Słowińskiego Parku. Zobaczenie go to wielka przygoda dla ornitologów.",
+        "illustration": "orlik_rare"
+      },
+      {
+        "type": "quiz",
+        "question": "Dlaczego orlik grubodzioby jest wyjątkowy w Polsce?",
+        "answers": ["Jest bardzo rzadki", "Lata najwyżej", "Jest największy"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Brawo detektywie! Znalazłeś jedną z najrzadszych tajemnic Słowińca!",
+        "feedbackWrong": "Orlik grubodzioby jest wyjątkowy, bo jest bardzo rzadki w Polsce!"
+      }
+    ]
+  }
+]

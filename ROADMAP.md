@@ -2,7 +2,7 @@
 
 ## Status projektu: FAZA 0 — Pre-produkcja
 
-Ostatnia aktualizacja: kwiecień 2026
+Ostatnia aktualizacja: 5 kwietnia 2026
 
 ---
 
@@ -19,21 +19,21 @@ Ostatnia aktualizacja: kwiecień 2026
 - [x] EDUCATION.md — treści tabliczek (Level 1 i 2 gotowe)
 - [x] ROADMAP.md — ten plik
 
-### Setup projektu [DO ZROBIENIA ⬜]
-- [ ] `npm create vite@latest skrzydla-nad-polska -- --template vanilla`
-- [ ] `npm install phaser`
-- [ ] Skonfigurować `vite.config.js` (base path dla GitHub Pages)
-- [ ] Stworzyć strukturę katalogów wg CLAUDE.md
-- [ ] Inicjalizacja repozytorium Git + GitHub
+### Setup projektu [GOTOWE ✅]
+- [x] `npm create vite@latest skrzydla-nad-polska -- --template vanilla`
+- [x] `npm install phaser`
+- [x] Skonfigurować `vite.config.js` (base path dla GitHub Pages)
+- [x] Stworzyć strukturę katalogów wg CLAUDE.md
+- [ ] Inicjalizacja repozytorium Git + GitHub (git init lokalnie — push do GitHub do zrobienia)
 
-### Prototyp Alpha [DO ZROBIENIA ⬜]
-- [ ] `src/config.js` — konfiguracja Phaser
-- [ ] `src/main.js` — entry point
-- [ ] `BootScene.js` — placeholder assets (kolorowe prostokąty zamiast sprite'ów)
-- [ ] `Level1Scene.js` — podstawowy level z Tiled
-- [ ] `Bird.js` + `Bocian.js` — ruch, skok, grawitacja
-- [ ] Przetestować fizyk Arcade na platformach
-- [ ] `SaveSystem.js` — localStorage wrapper
+### Prototyp Alpha [GOTOWE ✅]
+- [x] `src/config.js` — konfiguracja Phaser
+- [x] `src/main.js` — entry point
+- [x] `BootScene.js` — placeholder assets (kolorowe prostokąty zamiast sprite'ów)
+- [x] `Level1Scene.js` — podstawowy level (platformy placeholder, kamera, kolizje)
+- [x] `Bird.js` + `Bocian.js` — ruch, skok, grawitacja, wing_gust (SHIFT)
+- [x] Fizyka Arcade na platformach działa (build OK)
+- [x] `SaveSystem.js` — localStorage wrapper
 - [ ] Deploy na GitHub Pages
 
 ### Pierwsza grafika PixelLab [DO ZROBIENIA ⬜]

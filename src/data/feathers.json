@@ -1,0 +1,34 @@
+[
+  {
+    "key": "spring_dawn",
+    "name": "Pióro Wiosennego Świtu",
+    "level": 1,
+    "legend": "Dawno temu, gdy wiosna zapomniana była jeszcze zimą, feniks sfrunął nad Biebrzę. Jedno jego złote pióro opadło na wodę i rozbudziło bagna do życia. Mówią, że każdej wiosny bociany wracają właśnie po to, żeby podziękować.",
+    "illustration": "feather_spring",
+    "glowColor": "#FFD54F"
+  },
+  {
+    "key": "summer_wind",
+    "name": "Pióro Letniego Wiatru",
+    "level": 2,
+    "legend": "Feniks przeleciał nad Bałtykiem tak szybko, że jego skrzydła wzbudziły wiatr, który usypał pierwsze wydmy. To pióro pachnie morzem i zawsze jest lekko ciepłe w dotyku.",
+    "illustration": "feather_summer",
+    "glowColor": "#4DD0E1"
+  },
+  {
+    "key": "autumn_mist",
+    "name": "Pióro Jesiennej Mgły",
+    "level": 3,
+    "legend": "Gdy feniks przelatywał nad Puszczą Białowieską, jego pióro zatonęło w mgle. Żubry i dzięcioły strzegą go do dziś. Podobno ktoś, kto znajdzie to pióro, rozumie mowę lasu.",
+    "illustration": "feather_autumn",
+    "glowColor": "#FF7043"
+  },
+  {
+    "key": "winter_aurora",
+    "name": "Pióro Zimowej Zorzy",
+    "level": 4,
+    "legend": "Najrzadsze ze wszystkich piór. Feniks zrzucił je podczas przelotu nad Tatrami w mroźną noc. Pióro świeci jak zorza polarna i nigdy nie zamarza. Ten, kto zbierze wszystkie cztery pióra, staje się Przyjacielem Ptaków Polski.",
+    "illustration": "feather_winter",
+    "glowColor": "#CE93D8"
+  }
+]

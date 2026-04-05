@@ -1,0 +1,165 @@
+[
+  {
+    "id": "L1_S1",
+    "position": { "x": 640, "y": 450 },
+    "spriteVariant": "wooden",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Bocian biały",
+        "text": "Bocian biały wraca do Polski każdej wiosny. Leci aż z Afryki — to prawie 10 000 kilometrów! Swoje gniazdo buduje na tym samym miejscu przez wiele lat.",
+        "illustration": "bocian_nest",
+        "birdSound": "bird_bocian"
+      },
+      {
+        "type": "location",
+        "title": "Biebrzański Park Narodowy",
+        "text": "To największy park narodowy w Polsce! Bagna i rozlewiska Biebrzy to dom dla ponad 270 gatunków ptaków. Wiosną można tu zobaczyć tysiące żurawi i kaczek.",
+        "illustration": "biebrza_map"
+      },
+      {
+        "type": "threat",
+        "title": "Uwaga: mokradła znikają",
+        "text": "Bagna i mokradła są osuszane, żeby zrobić miejsce na pola. Gdy mokradła znikają, bocian i żuraw tracą swój dom i jedzenie.",
+        "illustration": "threat_drainage",
+        "severity": "high"
+      },
+      {
+        "type": "quiz",
+        "question": "Skąd wraca bocian każdej wiosny?",
+        "answers": ["Z Afryki", "Z Azji", "Z Francji"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Tak jest! Bociany spędzają zimę w ciepłej Afryce.",
+        "feedbackWrong": "Prawie! Bociany lecą aż do Afryki na zimę."
+      }
+    ]
+  },
+  {
+    "id": "L1_S2",
+    "position": { "x": 1920, "y": 400 },
+    "spriteVariant": "wooden",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Żuraw",
+        "text": "Żuraw to jeden z największych ptaków latających w Polsce. Ma szare pióra i czerwoną plamkę na głowie. Żurawie tańczą ze sobą — to ich sposób na znalezienie partnera na całe życie!",
+        "illustration": "zuraw_dance",
+        "birdSound": "bird_zuraw"
+      },
+      {
+        "type": "location",
+        "title": "Rozlewiska — raj dla ptaków",
+        "text": "Gdy rzeka Biebrza wylewa wiosną, tworzy ogromne jeziora na łąkach. Ryby, żaby i owady wychodzą wszędzie. To dla ptaków jak wielka restauracja!",
+        "illustration": "biebrza_flood"
+      },
+      {
+        "type": "threat",
+        "title": "Hałas i płoszenie",
+        "text": "Żurawie potrzebują spokoju, żeby wychować pisklęta. Głośni ludzie i psy bez smyczy mogą sprawić, że żuraw porzuci gniazdo.",
+        "illustration": "threat_disturbance",
+        "severity": "medium"
+      },
+      {
+        "type": "quiz",
+        "question": "Jak żurawie szukają partnera?",
+        "answers": ["Tańczą razem", "Śpiewają piosenki", "Budują gniazdo"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Dokładnie! Taniec żurawia jest bardzo piękny.",
+        "feedbackWrong": "Nie tym razem — żurawie tańczą, żeby znaleźć parę!"
+      }
+    ]
+  },
+  {
+    "id": "L1_S3",
+    "position": { "x": 3200, "y": 380 },
+    "spriteVariant": "rustic",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Orzeł bielik",
+        "text": "Bielik to największy orzeł w Polsce i nasz symbol narodowy! Ma białe pióra ogona i żółty dziób. Poluje na ryby — wlatuje w wodę i chwyta je szponami.",
+        "illustration": "bielik_fishing",
+        "birdSound": "bird_bielik"
+      },
+      {
+        "type": "location",
+        "title": "Bagna chronią klimat",
+        "text": "Bagna to nie brudna woda — to coś bardzo ważnego! Przechowują ogromne ilości węgla i chronią nas przed suszą. Jeden hektar bagna robi więcej dobrego niż cały las!",
+        "illustration": "carbon_storage"
+      },
+      {
+        "type": "threat",
+        "title": "Trucizna w rybach",
+        "text": "Gdy ludzie zatruwają wody chemikaliami, ryby stają się trujące. Bielik, który zje taką rybę, może zachorować i zginąć.",
+        "illustration": "threat_pollution",
+        "severity": "high"
+      },
+      {
+        "type": "quiz",
+        "question": "Czym poluje bielik?",
+        "answers": ["Szponami łapie ryby", "Dziobem kopie w ziemię", "Siatką jak rybak"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Super! Bielik ma bardzo silne szpony.",
+        "feedbackWrong": "Spróbuj jeszcze raz — bielik używa szponów!"
+      }
+    ]
+  },
+  {
+    "id": "L1_S4",
+    "position": { "x": 4800, "y": 360 },
+    "spriteVariant": "wooden",
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Remiz — mistrz budowania",
+        "text": "Remiz to malutki ptak, który buduje niezwykłe gniazdo. Wygląda jak torebka wisząca nad wodą! Samiec buduje gniazdo, żeby przyciągnąć samicę.",
+        "illustration": "remiz_nest",
+        "birdSound": "bird_zuraw"
+      },
+      {
+        "type": "location",
+        "title": "Jak chroniony jest park?",
+        "text": "W Biebrzańskim Parku Narodowym nie wolno budować domów, wycinać drzew ani polować. Strażnicy pilnują, żeby zwierzęta miały spokój.",
+        "illustration": "park_ranger"
+      },
+      {
+        "type": "threat",
+        "title": "Inwazyjne rośliny",
+        "text": "Niektóre rośliny przywiezione z innych krajów rosną tak szybko, że wypierają polskie rośliny. Wtedy owady i ptaki nie mają co jeść.",
+        "illustration": "threat_invasive",
+        "severity": "medium"
+      },
+      {
+        "type": "quiz",
+        "question": "Dlaczego samiec remiza buduje gniazdo?",
+        "answers": ["Żeby przyciągnąć samicę", "Żeby się ogrzać zimą", "Żeby schować jedzenie"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Brawo! Samiec remiza jest jak prawdziwy architekt.",
+        "feedbackWrong": "Spróbuj jeszcze raz — samiec remiza buduję gniazdo dla partnerki!"
+      }
+    ]
+  },
+  {
+    "id": "L1_S5_HIDDEN",
+    "position": { "x": 5500, "y": 200 },
+    "spriteVariant": "golden",
+    "isHidden": true,
+    "pages": [
+      {
+        "type": "bird_fact",
+        "title": "Sekret: Derkacz — mistrz kamuflażu",
+        "text": "Derkacza słyszysz, ale prawie nigdy nie widzisz! Chowa się w wysokiej trawie. Jego głos 'krek-krek' słychać w nocy na łąkach Biebrzy.",
+        "illustration": "derkacz_hidden",
+        "birdSound": "bird_bocian"
+      },
+      {
+        "type": "quiz",
+        "question": "Dlaczego trudno zobaczyć derkacza?",
+        "answers": ["Chowa się w trawie", "Lata bardzo szybko", "Żyje pod wodą"],
+        "correctIndex": 0,
+        "feedbackCorrect": "Dokładnie! Znalazłeś sekret tej tabliczki — jesteś świetnym obserwatorem!",
+        "feedbackWrong": "Derkacz chowa się w trawie — prawie nikt go nie widzi!"
+      }
+    ]
+  }
+]

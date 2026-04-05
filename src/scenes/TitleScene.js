@@ -5,9 +5,10 @@ export default class TitleScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale
+    const isTouch = this.sys.game.device.input.touch
 
     // Input — keyboard
-    this.input.keyboard.once('keydown-SPACE', () => this.scene.start('Level1Scene'))
+    this.input.keyboard.once('keydown-SPACE', () => this._startGame())
 
     // ── PixelLab menu image fills the whole screen ──────────────────────────
     // menu_full_c.png: 400×224 → scaled to 1280×720
@@ -39,22 +40,32 @@ export default class TitleScene extends Phaser.Scene {
     // ── Invisible hit area over the painted play button ──────────────────────
     this.add.rectangle(width / 2, height * 0.725, 300, 60)
       .setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => this.scene.start('Level1Scene'))
+      .on('pointerdown', () => this._startGame())
 
-    // ── Controls legend — dark bg for readability ─────────────────────────────
+    // ── Controls legend — keyboard only ──────────────────────────────────────
     const legendY = height - 38
     this.add.rectangle(width / 2, legendY, width, 52, 0x000000, 0.55)
-    this.add.text(width / 2, legendY - 8, '← → / A D  bieg     ↑ / W  skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
-      fontSize: '13px',
-      fontFamily: '"Courier New", monospace',
-      color: '#ffdd00',
-      stroke: '#000',
-      strokeThickness: 2,
-    }).setOrigin(0.5)
+    if (!isTouch) {
+      this.add.text(width / 2, legendY - 8, '← → / A D  bieg     ↑ / W  skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
+        fontSize: '13px',
+        fontFamily: '"Courier New", monospace',
+        color: '#ffdd00',
+        stroke: '#000',
+        strokeThickness: 2,
+      }).setOrigin(0.5)
+    }
     this.add.text(width / 2, legendY + 12, 'polskieptaki.pl  •  v0.1', {
       fontSize: '10px',
       fontFamily: '"Courier New", monospace',
       color: '#888866',
     }).setOrigin(0.5)
+  }
+
+  _startGame() {
+    // Request fullscreen synchronously within the user gesture so Chrome Android honours it
+    if (this.scale.fullscreenEnabled && !this.scale.isFullscreen) {
+      this.scale.startFullscreen()
+    }
+    this.scene.start('Level1Scene')
   }
 }

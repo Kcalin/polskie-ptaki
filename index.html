@@ -81,24 +81,18 @@
     <script type="module" src="/src/main.js"></script>
 
     <script>
-      // Chrome Android: requestFullscreen on first user gesture hides the address bar.
-      // iOS Safari: Fullscreen API not supported — no workaround without PWA.
-      // Guard with a flag so touchstart + pointerdown don't double-fire.
-      let _fsAttempted = false
-      function tryFullscreen() {
-        if (_fsAttempted) return
-        _fsAttempted = true
-        const el = document.getElementById('game-container')
-        if (document.fullscreenEnabled && el.requestFullscreen) {
-          el.requestFullscreen().then(() => {
-            if (screen.orientation && screen.orientation.lock) {
-              screen.orientation.lock('landscape').catch(() => {})
-            }
-          }).catch(() => {})
+      // Lock to landscape on first interaction (Chrome Android 93+)
+      // Fullscreen API avoided — it triggers Phaser resize and crashes the page
+      let _lockAttempted = false
+      function tryLandscape() {
+        if (_lockAttempted) return
+        _lockAttempted = true
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => {})
         }
       }
-      document.addEventListener('touchstart',  tryFullscreen, { passive: true })
-      document.addEventListener('pointerdown', tryFullscreen)
+      document.addEventListener('touchstart',  tryLandscape, { passive: true })
+      document.addEventListener('pointerdown', tryLandscape)
     </script>
   </body>
 </html>

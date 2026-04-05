@@ -245,7 +245,7 @@ export default class Level1Scene extends Phaser.Scene {
 
     this.add.rectangle(width / 2, height / 2, 560, 110, 0x1a1a2e, 0.82)
       .setScrollFactor(0).setDepth(20)
-    this.add.text(width / 2, height / 2 - 16, 'Ups! Zgubiłeś wszystkie życia.', {
+    this.add.text(width / 2, height / 2 - 16, 'Ups! Straciłeś wszystkie życia.', {
       fontSize: '22px', fontFamily: '"Courier New", monospace',
       color: '#dddddd', stroke: '#000', strokeThickness: 3,
     }).setOrigin(0.5).setScrollFactor(0).setDepth(21)

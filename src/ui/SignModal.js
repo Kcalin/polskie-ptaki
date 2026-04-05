@@ -18,7 +18,7 @@ const C = {
   nav_btn:       0x5c3d11,
   nav_btn_hi:    0x8b6914,
   nav_btn_dis:   0x2a2a2a,
-  hint:          '#666666',
+  hint:          '#ffdd00',
   credit:        '#555555',
   dot_on:        0xffe066,
   dot_off:       0x444444,
@@ -210,7 +210,7 @@ export default class SignModal {
     // Hint (bottom center)
     this._add(this.scene.add.text(
       this._sx + MW / 2, this._sy + MH - BORDER - 4,
-      '← → zmień stronę   •   ESC zamknij',
+      '← → / A D  zmień stronę   •   ESC zamknij',
       { fontSize: '11px', fontFamily: FONT, color: C.hint }
     ).setOrigin(0.5, 1))
   }
@@ -274,7 +274,7 @@ export default class SignModal {
     // Navigation hint for quiz
     if (!this._quizAnswered) {
       this._add(this.scene.add.text(ix + iw, iy + 26,
-        '↑↓ zaznacz\nENTER wybierz',
+        '↑↓ / W S  zaznacz\nENTER wybierz',
         { fontSize: '11px', fontFamily: FONT, color: C.hint, align: 'right' }
       ).setOrigin(1, 0))
     }

@@ -87,9 +87,12 @@
       function tryLandscape() {
         if (_lockAttempted) return
         _lockAttempted = true
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(() => {})
-        }
+        try {
+          if (screen.orientation && screen.orientation.lock) {
+            const p = screen.orientation.lock('landscape')
+            if (p && typeof p.catch === 'function') p.catch(() => {})
+          }
+        } catch (e) {}
       }
       document.addEventListener('touchstart',  tryLandscape, { passive: true })
       document.addEventListener('pointerdown', tryLandscape)

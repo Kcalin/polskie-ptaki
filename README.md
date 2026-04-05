@@ -8,12 +8,14 @@ A 2D pixel-art platformer for children (ages 6–10) about Polish birds and nati
 
 ## Gameplay
 
-- **Move** — `← →` arrows
-- **Jump** — `↑` arrow
-- **Wing gust** (stun enemies in radius) — `Shift`
-- **Read education sign** — `E` when near a sign
-- **Navigate sign** — `← →` arrows, `ESC` to close
-- **Quiz** — `↑ ↓` to select answer, `Enter` to confirm
+| Action | Keyboard | Mobile |
+|--------|----------|--------|
+| Move | `← →` / `A D` | ◄ ► buttons |
+| Jump | `↑` / `W` | ▲ Skok button |
+| Wing gust (stun enemies) | `Shift` | 💨 Podmuch button |
+| Read education sign | `E` near a sign | E Tablica button |
+| Navigate sign | `← →` / `A D`, `ESC` to close | on-screen arrows, ✕ |
+| Quiz | `↑ ↓` to select, `Enter` to confirm | tap answer |
 
 Collect the phoenix feather at the end of each level to unlock the next one. Correct quiz answers restore a heart (max 3).
 
@@ -38,6 +40,14 @@ Collect the phoenix feather at the end of each level to unlock the next one. Cor
 | localStorage | Save system |
 | [PixelLab.ai](https://pixellab.ai) | Sprite generation |
 
+### Mobile support
+
+- Responsive canvas via `Phaser.Scale.FIT` — scales to any screen size
+- Virtual touch controls (D-pad, jump, gust, contextual interact button)
+- Touch buttons hidden when education sign modal is open
+- Portrait mode blocked with a rotate-device overlay
+- Landscape orientation lock on supported browsers (Chrome Android)
+
 ---
 
 ## Project structure
@@ -48,7 +58,7 @@ src/
   objects/       — Game objects (birds, enemies, signs, pickups)
     birds/       — One class per playable bird
     enemies/     — Fox, Wolf, …
-  systems/       — SaveSystem, AudioManager
+  systems/       — SaveSystem, AudioManager, TouchScene, touchInput
   ui/            — SignModal (education sign overlay)
   data/
     signs/       — Educational content per level (Polish)

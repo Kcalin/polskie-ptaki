@@ -16,21 +16,27 @@ class _AudioManager {
     if (this._music?.isPlaying) return
     this._scene = scene
 
-    if (!scene.cache.audio.exists('bg_level1')) return  // not loaded yet
+    if (!scene.cache.audio.exists('bg_level1')) return
 
-    this._music = scene.sound.add('bg_level1', {
-      loop:   true,
-      volume: 0,
-    })
-    this._music.play()
+    const doPlay = () => {
+      if (this._music?.isPlaying) return
+      this._music = scene.sound.add('bg_level1', { loop: true, volume: 0 })
+      this._music.play()
+      scene.tweens.add({
+        targets:  this._music,
+        volume:   0.35,
+        duration: 1500,
+        ease:     'Linear',
+      })
+    }
 
-    // Fade in over 1.5 s
-    scene.tweens.add({
-      targets:  this._music,
-      volume:   0.35,
-      duration: 1500,
-      ease:     'Linear',
-    })
+    // On mobile the AudioContext is locked until the first user gesture completes.
+    // Phaser emits 'unlocked' when it's safe to play — wait for it if needed.
+    if (scene.sound.locked) {
+      scene.sound.once('unlocked', doPlay)
+    } else {
+      doPlay()
+    }
   }
 
   stopMusic() {

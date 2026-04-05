@@ -2,31 +2,96 @@
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover: canvas reaches under iOS notch/home indicator -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>Polskie Ptaki</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html, body {
         background: #1a1a2e;
-        display: flex;
+        overflow: hidden;
+        touch-action: none;
+        /* Use safe-area insets so nothing hides behind notch */
+        padding: env(safe-area-inset-top) env(safe-area-inset-right)
+                 env(safe-area-inset-bottom) env(safe-area-inset-left);
+      }
+
+      /*
+        #game-container is the Phaser parent.
+        100dvh = dynamic viewport height — updates when browser chrome hides/shows.
+        Fallback to 100vh for older browsers.
+      */
+      #game-container {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: #1a1a2e;
+      }
+
+      /* CSS transform centering — works on all Safari versions */
+      #game-container canvas {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        touch-action: none;
+      }
+
+      /* ── Portrait overlay ─────────────────────────────────────────────── */
+      #rotate-msg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #1a1a2e;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
-        overflow: hidden;
+        gap: 20px;
+        color: #ffe066;
+        font-family: "Courier New", monospace;
+        text-align: center;
+        padding: 24px;
       }
-      canvas {
-        display: block;
-        max-width: 100vw;
-        max-height: 100vh;
-        object-fit: contain;
+      #rotate-msg .icon { font-size: 64px; animation: tilt 1.8s ease-in-out infinite alternate; }
+      #rotate-msg p { font-size: 20px; line-height: 1.5; }
+      @keyframes tilt {
+        from { transform: rotate(-25deg); }
+        to   { transform: rotate(25deg); }
+      }
+      @media (orientation: portrait) {
+        #rotate-msg { display: flex; }
       }
     </style>
   </head>
   <body>
+    <div id="rotate-msg">
+      <div class="icon">📱</div>
+      <p>Obróć telefon poziomo,<br>żeby grać w Polskie Ptaki!</p>
+    </div>
+
+    <div id="game-container"></div>
+
     <script type="module" src="/src/main.js"></script>
+
+    <script>
+      // Lock to landscape on Android Chrome (Safari ignores this)
+      if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(() => {})
+      }
+
+      // Request fullscreen on first user interaction (hides Chrome address bar)
+      function tryFullscreen() {
+        const el = document.documentElement
+        const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen
+        if (req) req.call(el).catch(() => {})
+      }
+      document.addEventListener('touchstart',  tryFullscreen, { once: true, passive: true })
+      document.addEventListener('pointerdown', tryFullscreen, { once: true })
+    </script>
   </body>
 </html>

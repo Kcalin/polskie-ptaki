@@ -1,4 +1,5 @@
 import { GAME_CONFIG } from '../config.js'
+import touchInput from '../systems/touchInput.js'
 
 export default class Bird extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, idleKey = 'batalion_idle') {
@@ -37,10 +38,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
     // Don't override horizontal velocity while a special boost is active
     const now = this.scene.time.now
     if (!this._boostUntil || now > this._boostUntil) {
-      if (this.cursors.left.isDown || this._wasd.left.isDown) {
+      const goLeft  = this.cursors.left.isDown  || this._wasd.left.isDown  || touchInput.left
+      const goRight = this.cursors.right.isDown || this._wasd.right.isDown || touchInput.right
+      if (goLeft) {
         this.setVelocityX(-GAME_CONFIG.playerSpeed)
         this.setFlipX(true)
-      } else if (this.cursors.right.isDown || this._wasd.right.isDown) {
+      } else if (goRight) {
         this.setVelocityX(GAME_CONFIG.playerSpeed)
         this.setFlipX(false)
       } else {
@@ -48,9 +51,11 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    const jumpPressed = Phaser.Input.Keyboard.JustDown(this.cursors.up)
-                     || Phaser.Input.Keyboard.JustDown(this._wasd.up)
-    if (jumpPressed && onGround) {
+    const jumpKeyboard = Phaser.Input.Keyboard.JustDown(this.cursors.up)
+                      || Phaser.Input.Keyboard.JustDown(this._wasd.up)
+    const jumpTouch = touchInput._jumpDown
+    if (jumpTouch) touchInput._jumpDown = false
+    if ((jumpKeyboard || jumpTouch) && onGround) {
       this.setVelocityY(GAME_CONFIG.jumpVelocity)
     }
 

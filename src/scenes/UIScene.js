@@ -21,13 +21,14 @@ export default class UIScene extends Phaser.Scene {
       this._heartImages.push(img)
     }
 
-    // Level label — pixel-art feel with stroke
-    this.add.text(width / 2, 14, 'Biebrza — Wiosna', {
-      fontSize: '16px',
+    // Level label
+    this.add.text(width / 2, 10, 'Biebrza — Wiosna', {
+      fontSize: '32px',
       fontFamily: '"Courier New", monospace',
-      color: '#ffffff',
-      stroke: '#000000',
-      strokeThickness: 4,
+      color: '#ffe066',
+      stroke: '#3a1500',
+      strokeThickness: 8,
+      shadow: { offsetX: 3, offsetY: 3, color: '#000000', blur: 0, fill: true },
     }).setOrigin(0.5, 0)
   }
 

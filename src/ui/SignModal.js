@@ -42,6 +42,9 @@ export default class SignModal {
     this._quizSelected  = 0
     this._gfx           = null
     this._overlay       = null
+    // Interactive hit zones added directly to scene (not container) so
+    // setScrollFactor(0) works correctly on a scrolling camera.
+    this._sceneHits     = []
     this._leftKey = this._rightKey = this._upKey = this._downKey =
     this._enterKey = this._spaceKey = this._escKey =
     this._aKey = this._dKey = this._wKey = this._sKey = null
@@ -112,6 +115,7 @@ export default class SignModal {
     this._closeBtn?.destroy()
     this.container?.destroy()
     this.container = null
+    this._clearSceneHits()
     this.scene.events.emit('signClosed')
   }
 
@@ -182,6 +186,7 @@ export default class SignModal {
 
   _renderPage() {
     this.container.removeAll(true)
+    this._clearSceneHits()
 
     const page  = this.currentSign.pages[this.pageIndex]
     const total = this.currentSign.pages.length
@@ -209,12 +214,14 @@ export default class SignModal {
     this._renderDots(total)
     this._renderNavButtons(total)
 
-    // Hint (bottom center)
-    this._add(this.scene.add.text(
-      this._sx + MW / 2, this._sy + MH - BORDER - 4,
-      '← → / A D  zmień stronę   •   ESC zamknij',
-      { fontSize: '11px', fontFamily: FONT, color: C.hint }
-    ).setOrigin(0.5, 1))
+    // Hint (bottom center) — keyboard only, hide on touch devices
+    if (!this.scene.sys.game.device.input.touch) {
+      this._add(this.scene.add.text(
+        this._sx + MW / 2, this._sy + MH - BORDER - 4,
+        '← → / A D  zmień stronę   •   ESC zamknij',
+        { fontSize: '11px', fontFamily: FONT, color: C.hint }
+      ).setOrigin(0.5, 1))
+    }
   }
 
   // ── Photo ───────────────────────────────────────────────────────────────────
@@ -310,9 +317,13 @@ export default class SignModal {
           wordWrap: { width: iw - 46 } }).setOrigin(0, 0.5)
 
       if (!this._quizAnswered) {
+        // pointerover (hover) stays on container child — visual only
         bg.setInteractive({ useHandCursor: true })
           .on('pointerover', () => { this._quizSelected = i; this._renderPage() })
-          .on('pointerdown', () => { if (!this._quizAnswered) this._resolveAnswer(page, i, correctIndex) })
+        // pointerdown as scene-level hit so scrollFactor(0) input works correctly
+        this._addSceneHit(ix, by, iw, btnH,
+          () => { if (!this._quizAnswered) this._resolveAnswer(page, i, correctIndex) },
+          0)  // origin 0
       }
 
       this._add(bg)
@@ -322,7 +333,7 @@ export default class SignModal {
 
     // Feedback
     if (this._quizAnswered) {
-      const correct = this._quizSelected === page.correctIndex
+      const correct = this._quizSelected === correctIndex
       const fb = correct ? page.feedbackCorrect : page.feedbackWrong
       this._add(this.scene.add.text(ix, iy + ih - 40, fb, {
         fontSize: '14px', fontFamily: FONT,
@@ -358,76 +369,91 @@ export default class SignModal {
   // ── On-screen nav arrow buttons ─────────────────────────────────────────────
 
   _renderNavButtons(total) {
-    const midY  = this._sy + MH / 2 - 10   // slightly above center (hint bar at bottom)
+    const midY  = this._sy + MH / 2 - 10
     const btnW  = 44, btnH = 56
 
-    // ◄ Previous
+    // ◄ Previous — visual in container, hit zone directly in scene
     const lDisabled = this.pageIndex === 0
     const lx = this._sx - btnW / 2 - 2
-    const lBg = this.scene.add.rectangle(lx, midY, btnW, btnH,
-      lDisabled ? C.nav_btn_dis : C.nav_btn).setOrigin(0.5)
-    this._add(lBg)
+    this._add(this.scene.add.rectangle(lx, midY, btnW, btnH,
+      lDisabled ? C.nav_btn_dis : C.nav_btn).setOrigin(0.5))
     this._add(this.scene.add.text(lx, midY, '◄',
       { fontSize: '20px', fontFamily: FONT,
         color: lDisabled ? '#444444' : '#ffe066' }).setOrigin(0.5))
     if (!lDisabled) {
-      lBg.setInteractive({ useHandCursor: true })
-        .on('pointerover',  () => lBg.setFillStyle(C.nav_btn_hi))
-        .on('pointerout',   () => lBg.setFillStyle(C.nav_btn))
-        .on('pointerdown',  () => this._navigate(-1))
+      this._addSceneHit(lx, midY, btnW, btnH, () => this._navigate(-1))
     }
 
     // ► Next
     const rDisabled = this.pageIndex === total - 1
     const rx = this._sx + MW + btnW / 2 + 2
-    const rBg = this.scene.add.rectangle(rx, midY, btnW, btnH,
-      rDisabled ? C.nav_btn_dis : C.nav_btn).setOrigin(0.5)
-    this._add(rBg)
+    this._add(this.scene.add.rectangle(rx, midY, btnW, btnH,
+      rDisabled ? C.nav_btn_dis : C.nav_btn).setOrigin(0.5))
     this._add(this.scene.add.text(rx, midY, '►',
       { fontSize: '20px', fontFamily: FONT,
         color: rDisabled ? '#444444' : '#ffe066' }).setOrigin(0.5))
     if (!rDisabled) {
-      rBg.setInteractive({ useHandCursor: true })
-        .on('pointerover',  () => rBg.setFillStyle(C.nav_btn_hi))
-        .on('pointerout',   () => rBg.setFillStyle(C.nav_btn))
-        .on('pointerdown',  () => this._navigate(1))
+      this._addSceneHit(rx, midY, btnW, btnH, () => this._navigate(1))
     }
   }
 
-  // ─── Close button (top-right corner, outside frame) ─────────────────────────
+  // ─── Close button (top-right corner, inside frame) ───────────────────────────
 
   _buildCloseButton() {
-    const bw = 80, bh = 28
-    const bx = this._sx + MW + 2        // just right of the frame
-    const by = this._sy - bh / 2 - 2   // just above the frame
+    const SIZE = 44   // square button size
+    // Position: inside frame, top-right corner
+    const cx = this._sx + MW - BORDER - SIZE / 2 - 4
+    const cy = this._sy + BORDER + SIZE / 2 + 4
 
     const g = this.scene.add.graphics().setScrollFactor(0).setDepth(13)
 
     const draw = (hover) => {
       g.clear()
+      // Outer border
       g.fillStyle(hover ? C.frame_mid : C.frame_outer)
-      g.fillRect(bx, by, bw, bh)
-      g.fillStyle(hover ? 0x2a5a2a : 0x1a3a1a)
-      g.fillRect(bx + 3, by + 3, bw - 6, bh - 6)
+      g.fillRect(cx - SIZE / 2, cy - SIZE / 2, SIZE, SIZE)
+      // Inner fill
+      g.fillStyle(hover ? 0x7f1010 : 0x3a1010)
+      g.fillRect(cx - SIZE / 2 + 3, cy - SIZE / 2 + 3, SIZE - 6, SIZE - 6)
     }
     draw(false)
 
-    const label = this.scene.add.text(bx + bw / 2, by + bh / 2, 'Zamknij', {
-      fontSize: '13px', fontFamily: FONT, color: C.hint,
+    const label = this.scene.add.text(cx, cy, '✕', {
+      fontSize: '26px', fontFamily: FONT, color: '#ff8888',
+      stroke: '#000000', strokeThickness: 3,
     }).setOrigin(0.5).setScrollFactor(0).setDepth(14)
 
-    const hit = this.scene.add.rectangle(bx + bw / 2, by + bh / 2, bw, bh)
+    const hit = this.scene.add.rectangle(cx, cy, SIZE, SIZE)
       .setScrollFactor(0).setDepth(15)
       .setInteractive({ useHandCursor: true })
     hit.on('pointerover',  () => { draw(true);  label.setColor('#ffffff') })
-    hit.on('pointerout',   () => { draw(false); label.setColor(C.hint) })
+    hit.on('pointerout',   () => { draw(false); label.setColor('#ff8888') })
     hit.on('pointerdown',  () => this.close())
 
-    // Group all three objects so close() can destroy them together
     this._closeBtn = { destroy: () => { g.destroy(); label.destroy(); hit.destroy() } }
   }
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────
 
   _add(obj) { this.container.add(obj); return obj }
+
+  // Invisible hit zone added directly to scene with scrollFactor(0) so input
+  // works correctly even when the game camera is scrolled.
+  // origin=0.5 (default) for centered rects, origin=0 for top-left rects.
+  _addSceneHit(x, y, w, h, onDown, origin = 0.5) {
+    // Zone: invisible by design, still receives pointer events (alpha=0 rects don't)
+    const hit = this.scene.add.zone(x, y, w, h)
+      .setOrigin(origin)
+      .setScrollFactor(0)
+      .setDepth(20)
+      .setInteractive({ useHandCursor: true })
+    hit.on('pointerdown', onDown)
+    this._sceneHits.push(hit)
+    return hit
+  }
+
+  _clearSceneHits() {
+    this._sceneHits.forEach(h => h.destroy())
+    this._sceneHits = []
+  }
 }

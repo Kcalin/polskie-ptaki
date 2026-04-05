@@ -12,11 +12,12 @@ export default class EducationSign extends Phaser.Physics.Arcade.StaticGroup {
         data.isHidden ? 'sign_hidden' : 'sign'
       )
       sign.signData = data
+      sign.setScale(1.3)
       sign.body.setSize(24, 24)
       this._signs.push(sign)
 
       // Prompt label above sign
-      const label = scene.add.text(data.position.x, data.position.y - 28, '▲ E', {
+      const label = scene.add.text(data.position.x, data.position.y - 36, '▲ E', {
         fontSize: '13px',
         fontFamily: 'Arial',
         color: '#ffff88',

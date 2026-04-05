@@ -32,7 +32,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('menu_full',  'assets/sprites/menu_full_c.png')
 
     // Decorations
-    this.load.image('deco_reed', 'assets/sprites/deco_reed.png')
+    this.load.image('deco_reed',       'assets/sprites/deco_reed.png')
+    this.load.image('banner_biebrza',  'assets/sprites/banner_biebrza.png')
 
     // UI / pickups
     this.load.image('sign',        'assets/sprites/sign_wooden.png')

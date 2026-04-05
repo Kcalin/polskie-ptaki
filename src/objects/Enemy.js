@@ -10,6 +10,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this)
 
     this.setCollideWorldBounds(true)
+    this.body.setOffset(0, -11)   // shift body up → sprite appears lower
     this.patrolLeft   = patrolLeft  ?? x - 120
     this.patrolRight  = patrolRight ?? x + 120
     this.speed        = speed

@@ -8,6 +8,7 @@ import SaveSystem from '../systems/SaveSystem.js'
 import AudioManager from '../systems/AudioManager.js'
 import signsData from '../data/signs/level1.json'
 import feathersData from '../data/feathers.json'
+import touchInput from '../systems/touchInput.js'
 
 const LEVEL_ID    = 1
 const LEVEL_WIDTH = 6400
@@ -45,7 +46,10 @@ export default class Level1Scene extends Phaser.Scene {
     }
 
     // Unblock player when sign modal closes
-    this.events.on('signClosed', () => { this.player.inputBlocked = false })
+    this.events.on('signClosed', () => {
+      this.player.inputBlocked = false
+      touchInput.modalOpen = false
+    })
 
     // Correct quiz answer → gain a life (max 3)
     this.events.on('quizCorrect', () => {
@@ -53,10 +57,16 @@ export default class Level1Scene extends Phaser.Scene {
     })
 
     // Education signs
-    const groundSignY = height - TILE - 24
+    const groundSignY = height - TILE - 14
+    // keepY signs were authored for height=720; shift them so their distance
+    // from the bottom stays the same as the platforms (which also use height).
+    const heightOffset = height - 720
     const adjustedSigns = signsData.map(s => ({
       ...s,
-      position: { x: s.position.x, y: (s.keepY || s.isHidden) ? s.position.y : groundSignY },
+      position: {
+        x: s.position.x,
+        y: (s.keepY || s.isHidden) ? s.position.y + heightOffset + 10 : groundSignY,
+      },
     }))
     this.signGroup = new EducationSign(this, adjustedSigns)
     this.modal = new SignModal(this)
@@ -73,8 +83,9 @@ export default class Level1Scene extends Phaser.Scene {
     // Reed decorations
     this._addDecorations(height)
 
-    // HUD
+    // HUD + touch overlay
     this.scene.launch('UIScene', { level: LEVEL_ID })
+    this.scene.launch('TouchScene')
 
     SaveSystem.setLastLevel(LEVEL_ID)
 
@@ -258,6 +269,7 @@ export default class Level1Scene extends Phaser.Scene {
     this.time.delayedCall(2000, () => {
       AudioManager.stopMusic()
       this.scene.stop('UIScene')
+      this.scene.stop('TouchScene')
       this.scene.restart()
     })
   }
@@ -312,6 +324,7 @@ export default class Level1Scene extends Phaser.Scene {
     // Transition to EndScene after brief pause
     this.time.delayedCall(2000, () => {
       this.scene.stop('UIScene')
+      this.scene.stop('TouchScene')
       this.scene.start('EndScene', { featherData })
     })
   }
@@ -335,8 +348,15 @@ export default class Level1Scene extends Phaser.Scene {
       }
     }
 
-    if (nearSign && Phaser.Input.Keyboard.JustDown(this._eKey) && !this.modal.isOpen) {
+    touchInput.showInteract = !!nearSign && !this.modal.isOpen
+
+    const interactKeyboard = nearSign && Phaser.Input.Keyboard.JustDown(this._eKey)
+    const interactTouch    = nearSign && touchInput._interactDown
+    if (interactTouch) touchInput._interactDown = false
+
+    if ((interactKeyboard || interactTouch) && !this.modal.isOpen) {
       this.player.inputBlocked = true
+      touchInput.modalOpen = true
       this.modal.open(nearSign.signData)
     }
   }

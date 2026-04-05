@@ -1,4 +1,5 @@
 import Bird from '../Bird.js'
+import touchInput from '../../systems/touchInput.js'
 
 const DISPLAY_RADIUS   = 150
 const DISPLAY_DURATION = 350    // animation hold time (ms)
@@ -26,7 +27,9 @@ export default class Batalion extends Bird {
     super.update(delta)
 
     const time = this.scene.time.now
-    if (Phaser.Input.Keyboard.JustDown(this.displayKey) && time > this.displayCooldown) {
+    const shiftTouch = touchInput._shiftDown
+    if (shiftTouch) touchInput._shiftDown = false
+    if ((Phaser.Input.Keyboard.JustDown(this.displayKey) || shiftTouch) && time > this.displayCooldown) {
       this.displayCooldown = time + DISPLAY_COOLDOWN
       this._activateDisplay(time)
     }

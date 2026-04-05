@@ -27,7 +27,9 @@
       */
       #game-container {
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100dvh;
         background: #1a1a2e;
       }
 
@@ -79,16 +81,17 @@
     <script type="module" src="/src/main.js"></script>
 
     <script>
-      // Lock to landscape on Android Chrome (Safari ignores this)
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(() => {})
-      }
-
-      // Request fullscreen on first user interaction (hides Chrome address bar)
+      // Request fullscreen on first user interaction, then lock to landscape
+      // (orientation.lock requires fullscreen to be active on Chrome Android)
       function tryFullscreen() {
         const el = document.documentElement
         const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen
-        if (req) req.call(el).catch(() => {})
+        if (!req) return
+        req.call(el).then(() => {
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {})
+          }
+        }).catch(() => {})
       }
       document.addEventListener('touchstart',  tryFullscreen, { once: true, passive: true })
       document.addEventListener('pointerdown', tryFullscreen, { once: true })

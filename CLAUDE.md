@@ -1,4 +1,4 @@
-# CLAUDE.md — Skrzydła nad Polską
+# CLAUDE.md — Polskie Ptaki
 
 > Główny plik kontekstowy dla Claude Code. Czytaj ten plik jako **pierwszy** przy każdej sesji.
 > Pełna dokumentacja w katalogu `docs/`.
@@ -15,7 +15,7 @@ Mechanika inspirowana Mario. Cel edukacyjny: polskie parki narodowe i ornitologi
 ## Struktura katalogów (docelowa)
 
 ```
-skrzydla-nad-polska/
+polskie-ptaki/
 ├── CLAUDE.md                  ← ten plik
 ├── docs/
 │   ├── CLAUDE.md              ← ten plik (symlink lub kopia)

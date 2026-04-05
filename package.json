@@ -1,7 +1,7 @@
 {
-  "name": "skrzydla-nad-polska",
+  "name": "polskie-ptaki",
   "version": "0.1.0",
-  "description": "Przeglądarkowa gra platformowa 2D pixel art o polskich ptakach",
+  "description": "Gra platformowa 2D pixel art o polskich ptakach i parkach narodowych",
   "type": "module",
   "scripts": {
     "dev": "vite",

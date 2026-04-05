@@ -60,22 +60,13 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   _buildBackground(width, height) {
-    // Scale each tile so the 400×225 source image fills the canvas height exactly.
-    // This eliminates vertical repetition/seams. Horizontal tiling is seamless parallax.
-    const skyScale = height / 225   // 720/225 ≈ 3.2  → tile is 1280×720 (one screen)
-
-    this._bgSky = this.add.tileSprite(0, 0, width, height, 'bg_sky')
+    // ONE full-screen background. Scale 400×225 source to exactly 1280×720
+    // so there is no tiling at all — one copy fills the entire canvas.
+    // tilePositionX in update() scrolls it for parallax.
+    this._bgMain = this.add.tileSprite(0, 0, width, height, 'bg_marsh')
       .setOrigin(0, 0).setScrollFactor(0).setDepth(-2)
-    this._bgSky.tileScaleX = skyScale
-    this._bgSky.tileScaleY = skyScale
-
-    // Marsh layer covers bottom ~55% of screen
-    const marshH    = Math.round(height * 0.55)
-    const marshScale = marshH / 225
-    this._bgMarsh = this.add.tileSprite(0, height - marshH, width, marshH, 'bg_marsh')
-      .setOrigin(0, 0).setScrollFactor(0).setDepth(-1)
-    this._bgMarsh.tileScaleX = marshScale
-    this._bgMarsh.tileScaleY = marshScale
+    this._bgMain.tileScaleX = width  / 400   // 1280/400 = 3.2
+    this._bgMain.tileScaleY = height / 225   // 720/225  = 3.2
   }
 
   _buildTerrain(height) {
@@ -185,10 +176,8 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   update(_time, delta) {
-    // Parallax background — offset tile texture proportionally to camera scroll
-    const camX = this.cameras.main.scrollX
-    this._bgSky.tilePositionX   = camX * 0.05
-    this._bgMarsh.tilePositionX = camX * 0.25
+    // Single background scrolls at 30% of player speed (parallax depth)
+    this._bgMain.tilePositionX = this.cameras.main.scrollX * 0.3
 
     this.player.update(delta)
 

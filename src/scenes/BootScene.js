@@ -8,7 +8,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('bocian_idle',   'assets/sprites/bocian_idle.png')
     this.load.image('bocian_jump',   'assets/sprites/bocian_jump.png')
     for (let i = 0; i < 4; i++) this.load.image(`bocian_idle_${i}`, `assets/sprites/bocian_idle_${i}.png`)
-    for (let i = 0; i < 6; i++) this.load.image(`bocian_walk_${i}`, `assets/sprites/bocian_walk_${i}.png`)
+    for (let i = 0; i < 4; i++) this.load.image(`bocian_walk_${i}`, `assets/sprites/bocian_walk_${i}.png`)
 
     // Enemy sprites
     this.load.image('fox_idle', 'assets/sprites/fox_idle.png')
@@ -55,8 +55,8 @@ export default class BootScene extends Phaser.Scene {
 
     this.anims.create({
       key: 'bocian_walk',
-      frames: Array.from({ length: 6 }, (_, i) => ({ key: `bocian_walk_${i}` })),
-      frameRate: 10,
+      frames: Array.from({ length: 4 }, (_, i) => ({ key: `bocian_walk_${i}` })),
+      frameRate: 8,
       repeat: -1,
     })
 

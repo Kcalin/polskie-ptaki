@@ -55,14 +55,16 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   _buildBackground(width, height) {
-    // Layer 1: sky — very slow parallax (scrollFactor 0.05)
-    this.add.tileSprite(width / 2, height / 2, width, height, 'bg_sky')
-      .setScrollFactor(0.05)
+    // TileSprites fixed to viewport (scrollFactor 0).
+    // tilePositionX is updated in update() to create parallax.
+    this._bgSky = this.add.tileSprite(0, 0, width, height, 'bg_sky')
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
       .setDepth(-2)
 
-    // Layer 2: marsh midground — medium parallax (scrollFactor 0.25)
-    this.add.tileSprite(width / 2, height * 0.65, width, height * 0.55, 'bg_marsh')
-      .setScrollFactor(0.25)
+    this._bgMarsh = this.add.tileSprite(0, height * 0.42, width, height * 0.58, 'bg_marsh')
+      .setOrigin(0, 0)
+      .setScrollFactor(0)
       .setDepth(-1)
   }
 
@@ -173,6 +175,11 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   update(_time, delta) {
+    // Parallax background — offset tile texture proportionally to camera scroll
+    const camX = this.cameras.main.scrollX
+    this._bgSky.tilePositionX   = camX * 0.05
+    this._bgMarsh.tilePositionX = camX * 0.25
+
     this.player.update(delta)
 
     for (const enemy of this.enemies.getChildren()) enemy.update()

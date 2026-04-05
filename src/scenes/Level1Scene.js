@@ -56,6 +56,11 @@ export default class Level1Scene extends Phaser.Scene {
     // Unblock player when sign modal closes
     this.events.on('signClosed', () => { this.player.inputBlocked = false })
 
+    // Correct quiz answer → gain a life (max 3)
+    this.events.on('quizCorrect', () => {
+      this.scene.get('UIScene')?.gainLife?.()
+    })
+
     // Education signs
     const groundSignY = height - TILE - 24
     const adjustedSigns = signsData.map(s => ({

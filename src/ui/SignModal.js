@@ -307,8 +307,11 @@ export default class SignModal {
   }
 
   _resolveAnswer(page, idx) {
-    this._quizAnswered  = true
-    this._quizSelected  = idx
+    this._quizAnswered = true
+    this._quizSelected = idx
+    if (idx === page.correctIndex) {
+      this.scene.events.emit('quizCorrect')
+    }
     this._renderPage()
   }
 

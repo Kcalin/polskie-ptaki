@@ -31,10 +31,12 @@ export default class UIScene extends Phaser.Scene {
     }).setOrigin(0.5, 0)
   }
 
+  /** Returns true when the last life is lost */
   loseLife() {
     this.lives = Math.max(0, this.lives - 1)
     this._heartImages.forEach((img, i) => {
       img.setTexture(i < this.lives ? 'heart_full' : 'heart_empty')
     })
+    return this.lives === 0
   }
 }

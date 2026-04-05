@@ -4,6 +4,7 @@ import BootScene from './scenes/BootScene.js'
 import TitleScene from './scenes/TitleScene.js'
 import Level1Scene from './scenes/Level1Scene.js'
 import UIScene from './scenes/UIScene.js'
+import EndScene from './scenes/EndScene.js'
 
 const config = {
   type: Phaser.AUTO,
@@ -21,7 +22,12 @@ const config = {
       debug: false,
     },
   },
-  scene: [BootScene, TitleScene, Level1Scene, UIScene],
+  scene: [BootScene, TitleScene, Level1Scene, UIScene, EndScene],
 }
 
 new Phaser.Game(config)
+
+// Dev helper — run in browser console to reset all saved progress:
+//   clearSave()
+import SaveSystem from './systems/SaveSystem.js'
+window.clearSave = () => { SaveSystem.clearAll(); location.reload() }

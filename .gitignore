@@ -1,3 +1,10 @@
 node_modules/
 dist/
+tmp/
+.claude/
+*.mov
+*.mp4
+Screenshot*.png
+Screen\ Recording*.mov
 .DS_Store
+**/.DS_Store

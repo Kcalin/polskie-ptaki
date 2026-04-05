@@ -17,6 +17,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this._facingRight = facingRight
     this._idleAnim    = idleAnim
     this._walkAnim    = walkAnim
+    this._dead        = false
 
     this.setVelocityX(this.speed)
     if (walkAnim) this.play(walkAnim, true)
@@ -24,13 +25,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   _applyFlip() {
-    // If sprite faces right: flipX=false → right, flipX=true → left
-    // If sprite faces left:  flipX=false → left, flipX=true → right
     const movingRight = this._dir > 0
     this.setFlipX(this._facingRight ? !movingRight : movingRight)
   }
 
   update() {
+    if (this._dead) return
+    if (this._stunUntil && this.scene.time.now < this._stunUntil) return
     if (this.x >= this.patrolRight) {
       this._dir = -1
       this._applyFlip()
@@ -39,5 +40,42 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this._applyFlip()
     }
     this.setVelocityX(this._dir * this.speed)
+  }
+
+  /** Temporarily freeze enemy (batalion display ability) */
+  stun(duration) {
+    if (this._dead || this._stunUntil > this.scene.time.now) return
+    this._stunUntil = this.scene.time.now + duration
+    this.setVelocityX(0)
+    this.setTint(0xaaaaff)
+    this.scene.time.delayedCall(duration, () => {
+      if (!this._dead) { this.clearTint() }
+    })
+  }
+
+  /** Called when stomped from above or hit by wing gust */
+  defeat() {
+    if (this._dead) return
+    this._dead = true
+    this.setVelocityX(0)
+    this.disableBody(true, false)   // stop physics, keep visible briefly
+
+    this.scene.tweens.add({
+      targets: this,
+      y: this.y - 40,
+      alpha: 0,
+      duration: 350,
+      ease: 'Power2',
+      onComplete: () => this.destroy(),
+    })
+
+    // Small score pop — "★" above enemy
+    const pop = this.scene.add.text(this.x, this.y - 20, '★', {
+      fontSize: '20px', color: '#ffdd44', stroke: '#000', strokeThickness: 3,
+    }).setOrigin(0.5).setDepth(10)
+    this.scene.tweens.add({
+      targets: pop, y: pop.y - 40, alpha: 0, duration: 600,
+      onComplete: () => pop.destroy(),
+    })
   }
 }

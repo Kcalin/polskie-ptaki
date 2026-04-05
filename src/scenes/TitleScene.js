@@ -6,7 +6,7 @@ export default class TitleScene extends Phaser.Scene {
   create() {
     const { width, height } = this.scale
 
-    // Input first
+    // Input — keyboard
     this.input.keyboard.once('keydown-SPACE', () => this.scene.start('Level1Scene'))
 
     // ── PixelLab menu image fills the whole screen ──────────────────────────
@@ -36,14 +36,21 @@ export default class TitleScene extends Phaser.Scene {
       strokeThickness: 7,
     }).setOrigin(0.5)
 
-    // ── "SPACJA — GRAJ!" over the painted play button ────────────────────────
-    this.add.text(width / 2, height * 0.725, 'SPACJA  —  GRAJ!', {
+    // ── "GRAJ!" over the painted play button — also clickable ────────────────
+    const startLabel = this.add.text(width / 2, height * 0.725, 'SPACJA  —  GRAJ!', {
       fontSize: '22px',
       fontFamily: '"Courier New", monospace',
       color: '#1a0a00',
       stroke: '#aa6600',
       strokeThickness: 3,
     }).setOrigin(0.5)
+
+    // Invisible hit area covering the painted button (~300×60 px)
+    const startHit = this.add.rectangle(width / 2, height * 0.725, 300, 60)
+      .setInteractive({ useHandCursor: true })
+    startHit.on('pointerover',  () => startLabel.setColor('#ffffff'))
+    startHit.on('pointerout',   () => startLabel.setColor('#1a0a00'))
+    startHit.on('pointerdown',  () => this.scene.start('Level1Scene'))
 
     // ── Controls legend — dark bg for readability ─────────────────────────────
     const legendY = height - 38

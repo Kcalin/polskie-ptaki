@@ -71,6 +71,7 @@ export default class SignModal {
 
     this.container = this.scene.add.container(0, 0).setScrollFactor(0).setDepth(12)
     this._renderPage()
+    this._buildCloseButton()
 
     // ── Keyboard ──────────────────────────────────────────────────────────────
     const K = Phaser.Input.Keyboard.KeyCodes
@@ -108,6 +109,7 @@ export default class SignModal {
       .forEach(k => k?.removeAllListeners())
     this._overlay?.destroy()
     this._gfx?.destroy()
+    this._closeBtn?.destroy()
     this.container?.destroy()
     this.container = null
     this.scene.events.emit('signClosed')
@@ -390,6 +392,39 @@ export default class SignModal {
         .on('pointerout',   () => rBg.setFillStyle(C.nav_btn))
         .on('pointerdown',  () => this._navigate(1))
     }
+  }
+
+  // ─── Close button (top-right corner, outside frame) ─────────────────────────
+
+  _buildCloseButton() {
+    const bw = 80, bh = 28
+    const bx = this._sx + MW + 2        // just right of the frame
+    const by = this._sy - bh / 2 - 2   // just above the frame
+
+    const g = this.scene.add.graphics().setScrollFactor(0).setDepth(13)
+
+    const draw = (hover) => {
+      g.clear()
+      g.fillStyle(hover ? C.frame_mid : C.frame_outer)
+      g.fillRect(bx, by, bw, bh)
+      g.fillStyle(hover ? 0x2a5a2a : 0x1a3a1a)
+      g.fillRect(bx + 3, by + 3, bw - 6, bh - 6)
+    }
+    draw(false)
+
+    const label = this.scene.add.text(bx + bw / 2, by + bh / 2, 'Zamknij', {
+      fontSize: '13px', fontFamily: FONT, color: C.hint,
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(14)
+
+    const hit = this.scene.add.rectangle(bx + bw / 2, by + bh / 2, bw, bh)
+      .setScrollFactor(0).setDepth(15)
+      .setInteractive({ useHandCursor: true })
+    hit.on('pointerover',  () => { draw(true);  label.setColor('#ffffff') })
+    hit.on('pointerout',   () => { draw(false); label.setColor(C.hint) })
+    hit.on('pointerdown',  () => this.close())
+
+    // Group all three objects so close() can destroy them together
+    this._closeBtn = { destroy: () => { g.destroy(); label.destroy(); hit.destroy() } }
   }
 
   // ─── Helpers ─────────────────────────────────────────────────────────────────

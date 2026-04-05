@@ -5,6 +5,10 @@ export default class TitleScene extends Phaser.Scene {
 
   create() {
     const { width, height } = this.scale
+
+    // Register input FIRST — before any drawing that could throw
+    this.input.keyboard.once('keydown-SPACE', () => this.scene.start('Level1Scene'))
+
     this._drawBackground(width, height)
     this._drawLogo(width, height)
     this._drawUI(width, height)
@@ -38,14 +42,18 @@ export default class TitleScene extends Phaser.Scene {
     moonG.fillStyle(0x0d2040)
     moonG.fillCircle(1163, 52, 18)  // bite
 
-    // Distant hill silhouette
-    const hillG = this.add.graphics().fillStyle(0x112a08)
-    const pts = []
+    // Distant hill silhouette — explicit path (fillPoints is unreliable in Phaser 3.88)
+    const hillG = this.add.graphics()
+    hillG.fillStyle(0x112a08)
+    hillG.beginPath()
+    hillG.moveTo(0, height * 0.68)
     for (let x = 0; x <= width; x += 16) {
-      pts.push({ x, y: height * 0.68 - Math.abs(Math.sin(x * 0.004) * 55 + Math.sin(x * 0.011) * 30) })
+      hillG.lineTo(x, height * 0.68 - Math.abs(Math.sin(x * 0.004) * 55 + Math.sin(x * 0.011) * 30))
     }
-    pts.push({ x: width, y: height }, { x: 0, y: height })
-    hillG.fillPoints(pts, true)
+    hillG.lineTo(width, height)
+    hillG.lineTo(0, height)
+    hillG.closePath()
+    hillG.fillPath()
 
     // Ground
     this.add.rectangle(width / 2, height - height * 0.10, width, height * 0.20, 0x1a3d0a)
@@ -129,7 +137,6 @@ export default class TitleScene extends Phaser.Scene {
       fontSize: '11px', fontFamily: '"Courier New", monospace', color: '#556677',
     }).setOrigin(1, 1)
 
-    this.input.keyboard.once('keydown-SPACE', () => this.scene.start('Level1Scene'))
   }
 
   _spawnBirds(width, height) {

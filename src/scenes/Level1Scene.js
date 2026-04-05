@@ -65,8 +65,7 @@ export default class Level1Scene extends Phaser.Scene {
     // tilePositionX in update() scrolls it for parallax.
     this._bgMain = this.add.tileSprite(0, 0, width, height, 'bg_marsh')
       .setOrigin(0, 0).setScrollFactor(0).setDepth(-2)
-    this._bgMain.tileScaleX = width  / 400   // 1280/400 = 3.2
-    this._bgMain.tileScaleY = height / 225   // 720/225  = 3.2
+      .setTileScale(width / 400, height / 225)  // 3.2× → jeden kafelek = 1280×720
   }
 
   _buildTerrain(height) {

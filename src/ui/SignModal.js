@@ -55,6 +55,7 @@ export default class SignModal {
     this.pageIndex     = 0
     this._quizAnswered = false
     this._quizSelected = 0
+    this._shuffleQuiz(signData.pages[0])
 
     const { width, height } = this.scene.scale
     this._sx = Math.round((width  - MW) / 2)
@@ -131,7 +132,23 @@ export default class SignModal {
     this.pageIndex     = newIdx
     this._quizAnswered = false
     this._quizSelected = 0
+    this._shuffleQuiz(this.currentSign.pages[newIdx])
     this._renderPage()
+  }
+
+  // Shuffle answers once per quiz page; store shuffled order + new correct index
+  _shuffleQuiz(page) {
+    if (page?.type !== 'quiz') { this._shuffled = null; return }
+    const indices = page.answers.map((_, i) => i)
+    // Fisher-Yates
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]]
+    }
+    this._shuffled = {
+      answers:      indices.map(i => page.answers[i]),
+      correctIndex: indices.indexOf(page.correctIndex),
+    }
   }
 
   _quizMove(dir) {
@@ -145,7 +162,8 @@ export default class SignModal {
   _quizConfirm() {
     const page = this.currentSign.pages[this.pageIndex]
     if (page.type !== 'quiz' || this._quizAnswered) return
-    this._resolveAnswer(page, this._quizSelected)
+    const correctIndex = this._shuffled?.correctIndex ?? page.correctIndex
+    this._resolveAnswer(page, this._quizSelected, correctIndex)
   }
 
   // ─── Page rendering ──────────────────────────────────────────────────────────
@@ -232,6 +250,10 @@ export default class SignModal {
   // ── Quiz page ───────────────────────────────────────────────────────────────
 
   _renderQuiz(page, ix, iy, iw, ih) {
+    // Use shuffled answers if available
+    const answers      = this._shuffled?.answers      ?? page.answers
+    const correctIndex = this._shuffled?.correctIndex ?? page.correctIndex
+
     // Header
     this._add(this.scene.add.text(ix, iy, '? Quiz', {
       fontSize: '16px', fontFamily: FONT, color: C.title }))
@@ -252,26 +274,24 @@ export default class SignModal {
     const btnGap = 48
     const startY = iy + 94
 
-    page.answers.forEach((answer, i) => {
-      const by        = startY + i * btnGap
-      const selected  = !this._quizAnswered && i === this._quizSelected
-      let   bgColor   = selected ? C.btn_selected : C.btn_normal
+    answers.forEach((answer, i) => {
+      const by       = startY + i * btnGap
+      const selected = !this._quizAnswered && i === this._quizSelected
+      let   bgColor  = selected ? C.btn_selected : C.btn_normal
 
       if (this._quizAnswered) {
-        if (i === page.correctIndex)       bgColor = C.btn_correct
+        if (i === correctIndex)        bgColor = C.btn_correct
         else if (i === this._quizSelected) bgColor = C.btn_wrong
       }
 
       const bg = this.scene.add.rectangle(ix, by, iw, btnH, bgColor).setOrigin(0, 0)
-      // Highlight border for selected answer
       if (selected) {
         const border = this.scene.add.rectangle(ix - 2, by - 2, iw + 4, btnH + 4, C.frame_inner)
           .setOrigin(0, 0).setFillStyle(0, 0).setStrokeStyle(2, C.frame_inner)
         this._add(border)
       }
 
-      const label = this.scene.add.text(ix + 10, by + btnH / 2,
-        `${LABELS[i]}.`,
+      const label = this.scene.add.text(ix + 10, by + btnH / 2, `${LABELS[i]}.`,
         { fontSize: '14px', fontFamily: FONT, color: C.title }).setOrigin(0, 0.5)
       const txt = this.scene.add.text(ix + 36, by + btnH / 2, answer,
         { fontSize: '14px', fontFamily: FONT, color: '#ffffff',
@@ -279,14 +299,8 @@ export default class SignModal {
 
       if (!this._quizAnswered) {
         bg.setInteractive({ useHandCursor: true })
-          .on('pointerover', () => {
-            this._quizSelected = i
-            this._renderPage()
-          })
-          .on('pointerdown', () => {
-            if (this._quizAnswered) return
-            this._resolveAnswer(page, i)
-          })
+          .on('pointerover', () => { this._quizSelected = i; this._renderPage() })
+          .on('pointerdown', () => { if (!this._quizAnswered) this._resolveAnswer(page, i, correctIndex) })
       }
 
       this._add(bg)
@@ -306,10 +320,10 @@ export default class SignModal {
     }
   }
 
-  _resolveAnswer(page, idx) {
+  _resolveAnswer(page, idx, correctIndex) {
     this._quizAnswered = true
     this._quizSelected = idx
-    if (idx === page.correctIndex) {
+    if (idx === (correctIndex ?? page.correctIndex)) {
       this.scene.events.emit('quizCorrect')
     }
     this._renderPage()

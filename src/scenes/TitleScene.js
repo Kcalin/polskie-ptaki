@@ -36,8 +36,8 @@ export default class TitleScene extends Phaser.Scene {
       strokeThickness: 7,
     }).setOrigin(0.5)
 
-    // ── "SPACE — PLAY!" over the painted play button ──────────────────────────
-    this.add.text(width / 2, height * 0.725, 'SPACE  —  PLAY!', {
+    // ── "SPACJA — GRAJ!" over the painted play button ────────────────────────
+    this.add.text(width / 2, height * 0.725, 'SPACJA  —  GRAJ!', {
       fontSize: '22px',
       fontFamily: '"Courier New", monospace',
       color: '#1a0a00',
@@ -48,7 +48,7 @@ export default class TitleScene extends Phaser.Scene {
     // ── Controls legend — dark bg for readability ─────────────────────────────
     const legendY = height - 38
     this.add.rectangle(width / 2, legendY, width, 52, 0x000000, 0.55)
-    this.add.text(width / 2, legendY - 8, '← → run     ↑ jump     SHIFT wing gust     E education sign', {
+    this.add.text(width / 2, legendY - 8, '← → bieg     ↑ skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
       fontSize: '13px',
       fontFamily: '"Courier New", monospace',
       color: '#ffdd00',

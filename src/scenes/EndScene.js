@@ -36,8 +36,8 @@ export default class EndScene extends Phaser.Scene {
 
   init(data) {
     this.featherData = data?.featherData ?? {
-      name: 'Feather of Spring Dawn',
-      legend: 'Long ago, a phoenix flew over the Biebrza marshes and one golden feather fell onto the water, awakening the wetlands to life.',
+      name: 'Pióro Wiosennego Świtu',
+      legend: 'Dawno temu feniks sfrunął nad Biebrzę i jedno złote pióro opadło na wodę, budząc bagna do życia.',
       glowColor: '#FFD54F',
     }
   }
@@ -252,7 +252,7 @@ export default class EndScene extends Phaser.Scene {
     const glowColor = this.featherData.glowColor ?? '#FFD54F'
 
     // "WELL DONE!" — big pixel font style
-    this.add.text(W / 2, py - 90, '★  WELL DONE!  ★', {
+    this.add.text(W / 2, py - 90, '★  BRAWO!  ★', {
       fontSize: '36px', fontFamily: FONT,
       color: '#ffe066',
       stroke: '#000000', strokeThickness: 5,
@@ -267,7 +267,7 @@ export default class EndScene extends Phaser.Scene {
     }).setOrigin(0.5)
 
     // Legend header
-    this.add.text(cx, py + 22, '— Legend —', {
+    this.add.text(cx, py + 22, '— Legenda —', {
       fontSize: '13px', fontFamily: FONT, color: '#6aaa6a',
     }).setOrigin(0.5)
 
@@ -282,8 +282,8 @@ export default class EndScene extends Phaser.Scene {
 
   _buildButtons(W, H) {
     const by = H - 55
-    this._pixelButton(W / 2 - 140, by, 'Play Again', () => this.scene.start('Level1Scene'))
-    this._pixelButton(W / 2 + 140, by, 'Main Menu',  () => this.scene.start('TitleScene'))
+    this._pixelButton(W / 2 - 140, by, 'Zagraj jeszcze raz', () => this.scene.start('Level1Scene'))
+    this._pixelButton(W / 2 + 140, by, 'Menu główne',        () => this.scene.start('TitleScene'))
   }
 
   _pixelButton(x, y, label, cb) {

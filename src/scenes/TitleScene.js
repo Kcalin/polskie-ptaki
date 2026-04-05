@@ -51,7 +51,7 @@ export default class TitleScene extends Phaser.Scene {
     this.add.text(width / 2, legendY - 8, '← → run     ↑ jump     SHIFT wing gust     E education sign', {
       fontSize: '13px',
       fontFamily: '"Courier New", monospace',
-      color: '#ffffcc',
+      color: '#ffdd00',
       stroke: '#000',
       strokeThickness: 2,
     }).setOrigin(0.5)

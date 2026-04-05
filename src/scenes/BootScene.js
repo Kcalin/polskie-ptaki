@@ -30,6 +30,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('sign_hidden', 'assets/sprites/sign_golden.png')
     this.load.image('feather',     'assets/sprites/feather_spring.png')
 
+    // Pixel-art heart sprites drawn via Graphics (no PNG needed)
+    this._makeHearts()
+
     // Fallback: generate any missing texture as colored rectangle
     this.load.on('loaderror', (file) => {
       console.warn(`Asset missing, using placeholder: ${file.key}`)
@@ -43,6 +46,42 @@ export default class BootScene extends Phaser.Scene {
   create() {
     this._registerAnimations()
     this.scene.start('TitleScene')
+  }
+
+  _makeHearts() {
+    // Classic 7×6 pixel-art heart, each pixel = 3×3 screen pixels
+    const S = 3
+    const W = 7, H = 6
+
+    const full = [
+      [0,1,1,0,1,1,0],
+      [1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1],
+      [0,1,1,1,1,1,0],
+      [0,0,1,1,1,0,0],
+      [0,0,0,1,0,0,0],
+    ]
+    const empty = [
+      [0,1,1,0,1,1,0],
+      [1,0,0,1,0,0,1],
+      [1,0,0,0,0,0,1],
+      [0,1,0,0,0,1,0],
+      [0,0,1,0,1,0,0],
+      [0,0,0,1,0,0,0],
+    ]
+
+    const drawHeart = (pattern, color, key) => {
+      const g = this.make.graphics({ add: false })
+      g.fillStyle(color)
+      pattern.forEach((row, y) =>
+        row.forEach((px, x) => { if (px) g.fillRect(x * S, y * S, S, S) })
+      )
+      g.generateTexture(key, W * S, H * S)
+      g.destroy()
+    }
+
+    drawHeart(full,  0xff3355, 'heart_full')
+    drawHeart(empty, 0x884455, 'heart_empty')
   }
 
   _registerAnimations() {

@@ -33,8 +33,13 @@ export default class Level1Scene extends Phaser.Scene {
     // Enemies
     this._buildEnemies(height)
 
-    // Education signs
-    this.signGroup = new EducationSign(this, signsData)
+    // Education signs — snap y to ground surface; hidden sign keeps its JSON y
+    const groundSignY = height - TILE - 24   // sign centre so its post base sits on ground
+    const adjustedSigns = signsData.map(s => ({
+      ...s,
+      position: { x: s.position.x, y: s.isHidden ? s.position.y : groundSignY },
+    }))
+    this.signGroup = new EducationSign(this, adjustedSigns)
     this.modal = new SignModal(this)
     this._eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
 
@@ -55,17 +60,22 @@ export default class Level1Scene extends Phaser.Scene {
   }
 
   _buildBackground(width, height) {
-    // TileSprites fixed to viewport (scrollFactor 0).
-    // tilePositionX is updated in update() to create parallax.
-    this._bgSky = this.add.tileSprite(0, 0, width, height, 'bg_sky')
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
-      .setDepth(-2)
+    // Scale each tile so the 400×225 source image fills the canvas height exactly.
+    // This eliminates vertical repetition/seams. Horizontal tiling is seamless parallax.
+    const skyScale = height / 225   // 720/225 ≈ 3.2  → tile is 1280×720 (one screen)
 
-    this._bgMarsh = this.add.tileSprite(0, height * 0.42, width, height * 0.58, 'bg_marsh')
-      .setOrigin(0, 0)
-      .setScrollFactor(0)
-      .setDepth(-1)
+    this._bgSky = this.add.tileSprite(0, 0, width, height, 'bg_sky')
+      .setOrigin(0, 0).setScrollFactor(0).setDepth(-2)
+    this._bgSky.tileScaleX = skyScale
+    this._bgSky.tileScaleY = skyScale
+
+    // Marsh layer covers bottom ~55% of screen
+    const marshH    = Math.round(height * 0.55)
+    const marshScale = marshH / 225
+    this._bgMarsh = this.add.tileSprite(0, height - marshH, width, marshH, 'bg_marsh')
+      .setOrigin(0, 0).setScrollFactor(0).setDepth(-1)
+    this._bgMarsh.tileScaleX = marshScale
+    this._bgMarsh.tileScaleY = marshScale
   }
 
   _buildTerrain(height) {

@@ -3,38 +3,38 @@ export default class UIScene extends Phaser.Scene {
     super({ key: 'UIScene', active: false })
     this.lives = 3
     this.level = 1
+    this._heartImages = []
   }
 
   init(data) {
+    this.lives = 3
     this.level = data.level ?? 1
   }
 
   create() {
     const { width } = this.scale
 
-    // Hearts
-    this.heartsText = this.add.text(20, 16, this._heartsString(), {
-      fontSize: '28px',
-      fontFamily: 'Arial',
-      color: '#ff4444',
-    })
+    // Pixel-art hearts (sprites, not text)
+    this._heartImages = []
+    for (let i = 0; i < 3; i++) {
+      const img = this.add.image(20 + i * 26, 20, 'heart_full').setOrigin(0, 0)
+      this._heartImages.push(img)
+    }
 
-    // Level info
-    this.add.text(width / 2, 16, 'Biebrza — Wiosna', {
-      fontSize: '20px',
-      fontFamily: 'Arial',
+    // Level label — pixel-art feel with stroke
+    this.add.text(width / 2, 14, 'Biebrza — Wiosna', {
+      fontSize: '16px',
+      fontFamily: '"Courier New", monospace',
       color: '#ffffff',
-      stroke: '#000',
-      strokeThickness: 3,
+      stroke: '#000000',
+      strokeThickness: 4,
     }).setOrigin(0.5, 0)
-  }
-
-  _heartsString() {
-    return '♥'.repeat(this.lives) + '♡'.repeat(Math.max(0, 3 - this.lives))
   }
 
   loseLife() {
     this.lives = Math.max(0, this.lives - 1)
-    this.heartsText.setText(this._heartsString())
+    this._heartImages.forEach((img, i) => {
+      img.setTexture(i < this.lives ? 'heart_full' : 'heart_empty')
+    })
   }
 }

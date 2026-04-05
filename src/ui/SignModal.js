@@ -19,7 +19,7 @@ const C = {
   nav_btn_hi:    0x8b6914,
   nav_btn_dis:   0x2a2a2a,
   hint:          '#ffdd00',
-  credit:        '#555555',
+  credit:        '#ffe066',
   dot_on:        0xffe066,
   dot_off:       0x444444,
 }

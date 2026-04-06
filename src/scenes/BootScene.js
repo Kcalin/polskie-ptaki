@@ -14,11 +14,13 @@ export default class BootScene extends Phaser.Scene {
 
     // Enemy sprites — fox
     this.load.image('fox_idle', 'assets/sprites/fox_idle.png')
-    for (let i = 0; i < 4; i++) this.load.image(`fox_walk_${i}`, `assets/sprites/fox_walk_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`fox_idle_${i}`, `assets/sprites/fox_idle_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`fox_walk_${i}`, `assets/sprites/fox_walk_${i}.png`)
 
     // Enemy sprites — wolf (platform enemy)
     this.load.image('wolf_idle', 'assets/sprites/wolf_idle.png')
-    for (let i = 0; i < 4; i++) this.load.image(`wolf_walk_${i}`, `assets/sprites/wolf_walk_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`wolf_idle_${i}`, `assets/sprites/wolf_idle_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`wolf_walk_${i}`, `assets/sprites/wolf_walk_${i}.png`)
 
     // Tiles
     this.load.image('ground',   'assets/sprites/tile_ground.png')
@@ -114,15 +116,15 @@ export default class BootScene extends Phaser.Scene {
   _registerAnimations() {
     this.anims.create({
       key: 'fox_walk',
-      frames: Array.from({ length: 4 }, (_, i) => ({ key: `fox_walk_${i}` })),
+      frames: Array.from({ length: 5 }, (_, i) => ({ key: `fox_walk_${i}` })),
       frameRate: 8,
       repeat: -1,
     })
 
     this.anims.create({
       key: 'fox_idle',
-      frames: [{ key: 'fox_idle' }],
-      frameRate: 1,
+      frames: Array.from({ length: 5 }, (_, i) => ({ key: `fox_idle_${i}` })),
+      frameRate: 6,
       repeat: -1,
     })
 
@@ -157,13 +159,13 @@ export default class BootScene extends Phaser.Scene {
     if (this.textures.exists('wolf_idle')) {
       this.anims.create({
         key: 'wolf_walk',
-        frames: Array.from({ length: 4 }, (_, i) => ({ key: `wolf_walk_${i}` })),
+        frames: Array.from({ length: 5 }, (_, i) => ({ key: `wolf_walk_${i}` })),
         frameRate: 8, repeat: -1,
       })
       this.anims.create({
         key: 'wolf_idle',
-        frames: [{ key: 'wolf_idle' }],
-        frameRate: 1, repeat: -1,
+        frames: Array.from({ length: 5 }, (_, i) => ({ key: `wolf_idle_${i}` })),
+        frameRate: 6, repeat: -1,
       })
     }
   }

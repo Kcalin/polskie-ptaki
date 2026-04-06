@@ -6,9 +6,9 @@ export default class BootScene extends Phaser.Scene {
   preload() {
     // Batalion sprites (player)
     this.load.image('batalion_idle', 'assets/sprites/batalion_idle_0.png')
-    this.load.image('batalion_jump', 'assets/sprites/batalion_jump.png')
-    this.load.image('batalion_fall', 'assets/sprites/batalion_fall.png')
-    this.load.image('batalion_skid', 'assets/sprites/batalion_skid.png')
+    for (let i = 0; i < 5; i++) this.load.image(`batalion_jump_${i}`, `assets/sprites/batalion_jump_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`batalion_fall_${i}`, `assets/sprites/batalion_fall_${i}.png`)
+    for (let i = 0; i < 5; i++) this.load.image(`batalion_skid_${i}`, `assets/sprites/batalion_skid_${i}.png`)
     for (let i = 0; i < 4; i++) this.load.image(`batalion_idle_${i}`,     `assets/sprites/batalion_idle_${i}.png`)
     for (let i = 0; i < 4; i++) this.load.image(`batalion_grok_walk_${i}`, `assets/sprites/batalion_grok_walk_${i}.png`)
 
@@ -139,18 +139,18 @@ export default class BootScene extends Phaser.Scene {
       })
       this.anims.create({
         key: 'batalion_jump',
-        frames: [{ key: 'batalion_jump' }],
-        frameRate: 1, repeat: 0,
+        frames: Array.from({ length: 5 }, (_, i) => ({ key: `batalion_jump_${i}` })),
+        frameRate: 10, repeat: -1,
       })
       this.anims.create({
         key: 'batalion_fall',
-        frames: [{ key: 'batalion_fall' }],
-        frameRate: 1, repeat: -1,
+        frames: Array.from({ length: 5 }, (_, i) => ({ key: `batalion_fall_${i}` })),
+        frameRate: 10, repeat: -1,
       })
       this.anims.create({
         key: 'batalion_skid',
-        frames: [{ key: 'batalion_skid' }],
-        frameRate: 1, repeat: -1,
+        frames: Array.from({ length: 5 }, (_, i) => ({ key: `batalion_skid_${i}` })),
+        frameRate: 8, repeat: -1,
       })
     }
 

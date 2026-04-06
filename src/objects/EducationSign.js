@@ -8,16 +8,16 @@ export default class EducationSign extends Phaser.Physics.Arcade.StaticGroup {
     for (const data of signsData) {
       const sign = scene.physics.add.staticSprite(
         data.position.x,
-        data.position.y,
+        data.position.y + 6,
         data.isHidden ? 'sign_hidden' : 'sign'
       )
       sign.signData = data
-      sign.setScale(1.3)
+      sign.setScale(0.65)
       sign.body.setSize(24, 24)
       this._signs.push(sign)
 
       // Prompt label above sign
-      const label = scene.add.text(data.position.x, data.position.y - 36, '▲ E', {
+      const label = scene.add.text(data.position.x, data.position.y - 20, '▲ E', {
         fontSize: '13px',
         fontFamily: 'Arial',
         color: '#ffff88',
@@ -28,7 +28,7 @@ export default class EducationSign extends Phaser.Physics.Arcade.StaticGroup {
       // Pulse the label
       scene.tweens.add({
         targets: label,
-        y: data.position.y - 34,
+        y: data.position.y - 18,
         duration: 700,
         ease: 'Sine.easeInOut',
         yoyo: true,

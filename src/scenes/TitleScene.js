@@ -43,19 +43,19 @@ export default class TitleScene extends Phaser.Scene {
       .on('pointerdown', () => this._startGame())
 
     // ── Controls legend — keyboard only ──────────────────────────────────────
-    const legendY = height - 38
-    this.add.rectangle(width / 2, legendY, width, 52, 0x000000, 0.55)
+    const legendY = height - 46
+    this.add.rectangle(width / 2, legendY, width, 68, 0x000000, 0.55)
     if (!isTouch) {
-      this.add.text(width / 2, legendY - 8, '← → / A D  bieg     ↑ / W  skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
-        fontSize: '13px',
+      this.add.text(width / 2, legendY - 12, '← → / A D  bieg     ↑ / W  skok     SHIFT podmuch skrzydłami     E tablica edukacyjna', {
+        fontSize: '17px',
         fontFamily: '"Courier New", monospace',
         color: '#ffdd00',
         stroke: '#000',
         strokeThickness: 2,
       }).setOrigin(0.5)
     }
-    this.add.text(width / 2, legendY + 12, 'polskieptaki.pl  •  v0.4  •  krzysztof@calinski.pl', {
-      fontSize: '10px',
+    this.add.text(width / 2, legendY + 16, 'polskieptaki.pl  •  v0.4  •  krzysztof@calinski.pl', {
+      fontSize: '13px',
       fontFamily: '"Courier New", monospace',
       color: '#ffdd00',
       stroke: '#000',

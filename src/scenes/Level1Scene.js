@@ -102,7 +102,7 @@ export default class Level1Scene extends Phaser.Scene {
                 : 'bg_marsh'
     this._bgMain = this.add.tileSprite(0, 0, width, height, bgKey)
       .setOrigin(0, 0).setScrollFactor(0).setDepth(-2)
-      .setTileScale(width / 400, height / 225)
+      .setTileScale(width / 400, height / 224)
   }
 
   // ─── Terrain ────────────────────────────────────────────────────────────────

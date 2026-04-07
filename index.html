@@ -61,6 +61,21 @@
       }
       #rotate-msg .icon { font-size: 64px; animation: tilt 1.8s ease-in-out infinite alternate; }
       #rotate-msg p { font-size: 20px; line-height: 1.5; }
+      #rotate-msg .inapp-hint { font-size: 15px; color: #aaa; display: none; }
+      #rotate-msg .open-btn {
+        display: none;
+        margin-top: 8px;
+        padding: 14px 28px;
+        background: #ffe066;
+        color: #1a1a2e;
+        font-family: "Courier New", monospace;
+        font-size: 17px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+      }
       @keyframes tilt {
         from { transform: rotate(-25deg); }
         to   { transform: rotate(25deg); }
@@ -74,6 +89,8 @@
     <div id="rotate-msg">
       <div class="icon">📱</div>
       <p>Obróć telefon poziomo,<br>żeby grać w Polskie Ptaki!</p>
+      <p class="inapp-hint" id="inapp-hint">Przeglądarka aplikacji nie obsługuje obrotu.<br>Otwórz stronę w Chrome lub Safari:</p>
+      <a class="open-btn" id="open-btn" href="https://polskieptaki.pl" target="_blank">Otwórz w przeglądarce</a>
     </div>
 
     <div id="game-container"></div>
@@ -81,6 +98,16 @@
     <script type="module" src="/src/main.js"></script>
 
     <script>
+      // Detect in-app browser (FB, Instagram, LinkedIn, TikTok, Twitter)
+      ;(function() {
+        var ua = navigator.userAgent || ''
+        var isInApp = /FBAN|FBAV|Instagram|LinkedInApp|musical_ly|TikTok|Twitter|Line\/|MicroMessenger/i.test(ua)
+        if (isInApp) {
+          document.getElementById('inapp-hint').style.display = 'block'
+          document.getElementById('open-btn').style.display = 'inline-block'
+        }
+      })()
+
       // Lock to landscape on first interaction (Chrome Android 93+)
       // Fullscreen API avoided — it triggers Phaser resize and crashes the page
       let _lockAttempted = false

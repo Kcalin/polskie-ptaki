@@ -4,11 +4,16 @@ export default class UIScene extends Phaser.Scene {
     this.lives = 3
     this.level = 1
     this._heartImages = []
+    this._signImages = []
+    this._totalSigns = 0
+    this._openedSigns = 0
   }
 
   init(data) {
     this.lives = 3
     this.level = data.level ?? 1
+    this._openedSigns = 0
+    this._totalSigns = 0
   }
 
   create() {
@@ -21,6 +26,10 @@ export default class UIScene extends Phaser.Scene {
       this._heartImages.push(img)
     }
 
+    // Sign counter — populated once Level1Scene calls initSignCounter()
+    this._signImages = []
+    this._signStartX = 20 + 3 * 26 + 14  // right of hearts + gap
+
     // Level label
     this.add.text(width / 2, 10, 'Biebrza — Wiosna', {
       fontSize: '32px',
@@ -30,6 +39,26 @@ export default class UIScene extends Phaser.Scene {
       strokeThickness: 8,
       shadow: { offsetX: 3, offsetY: 3, color: '#000000', blur: 0, fill: true },
     }).setOrigin(0.5, 0)
+  }
+
+  /** Called by Level1Scene once signs are known */
+  initSignCounter(total) {
+    this._totalSigns = total
+    this._openedSigns = 0
+    this._signImages.forEach(img => img.destroy())
+    this._signImages = []
+    for (let i = 0; i < total; i++) {
+      const img = this.add.image(this._signStartX + i * 24, 20, 'sign_icon_empty').setOrigin(0, 0)
+      this._signImages.push(img)
+    }
+  }
+
+  /** Called by Level1Scene each time a sign is opened */
+  updateSignCount(opened) {
+    this._openedSigns = opened
+    this._signImages.forEach((img, i) => {
+      img.setTexture(i < opened ? 'sign_icon_full' : 'sign_icon_empty')
+    })
   }
 
   /** Returns true when the last life is lost */

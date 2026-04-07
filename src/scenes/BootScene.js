@@ -54,6 +54,7 @@ export default class BootScene extends Phaser.Scene {
 
     // Pixel-art heart sprites drawn via Graphics (no PNG needed)
     this._makeHearts()
+    this._makeSignIcon()
 
     // Fallback: generate any missing texture as colored rectangle
     this.load.on('loaderror', (file) => {
@@ -111,6 +112,46 @@ export default class BootScene extends Phaser.Scene {
 
     drawHeart(full,  0xff3355, 'heart_full')
     drawHeart(empty, 0x884455, 'heart_empty')
+  }
+
+  _makeSignIcon() {
+    // 7×8 pixel-art sign (board 7×4 + post 1×4), each pixel = 3×3 screen pixels
+    const S = 3
+    const W = 7, H = 8
+
+    const full = [
+      [0,1,1,1,1,1,0],
+      [1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1],
+      [0,1,1,1,1,1,0],
+      [0,0,0,1,0,0,0],
+      [0,0,0,1,0,0,0],
+      [0,0,0,1,0,0,0],
+      [0,1,0,1,0,1,0],
+    ]
+    const empty = [
+      [0,1,1,1,1,1,0],
+      [1,0,0,0,0,0,1],
+      [1,0,0,0,0,0,1],
+      [0,1,1,1,1,1,0],
+      [0,0,0,1,0,0,0],
+      [0,0,0,1,0,0,0],
+      [0,0,0,1,0,0,0],
+      [0,1,0,1,0,1,0],
+    ]
+
+    const drawSign = (pattern, color, key) => {
+      const g = this.make.graphics({ add: false })
+      g.fillStyle(color)
+      pattern.forEach((row, y) =>
+        row.forEach((px, x) => { if (px) g.fillRect(x * S, y * S, S, S) })
+      )
+      g.generateTexture(key, W * S, H * S)
+      g.destroy()
+    }
+
+    drawSign(full,  0xc88c28, 'sign_icon_full')
+    drawSign(empty, 0x664422, 'sign_icon_empty')
   }
 
   _registerAnimations() {

@@ -71,6 +71,8 @@ export default class Level1Scene extends Phaser.Scene {
     this.signGroup = new EducationSign(this, adjustedSigns)
     this.modal = new SignModal(this)
     this._eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    this._openedSignIds = new Set()
+    this.scene.get('UIScene')?.initSignCounter(signsData.length)
 
     // Feather pickup — on the last platform (x=6080 w=4, y=height-304)
     // Platform top = height-304-16=height-320; feather 36px above that
@@ -358,6 +360,10 @@ export default class Level1Scene extends Phaser.Scene {
       this.player.inputBlocked = true
       touchInput.modalOpen = true
       this.modal.open(nearSign.signData)
+      if (!this._openedSignIds.has(nearSign.signData.id)) {
+        this._openedSignIds.add(nearSign.signData.id)
+        this.scene.get('UIScene')?.updateSignCount(this._openedSignIds.size)
+      }
     }
   }
 }

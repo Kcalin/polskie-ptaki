@@ -72,7 +72,6 @@ export default class Level1Scene extends Phaser.Scene {
     this.modal = new SignModal(this)
     this._eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
     this._openedSignIds = new Set()
-    this.scene.get('UIScene')?.initSignCounter(signsData.length)
 
     // Feather pickup — on the last platform (x=6080 w=4, y=height-304)
     // Platform top = height-304-16=height-320; feather 36px above that
@@ -88,6 +87,11 @@ export default class Level1Scene extends Phaser.Scene {
     // HUD + touch overlay
     this.scene.launch('UIScene', { level: LEVEL_ID })
     this.scene.launch('TouchScene')
+
+    // Init sign counter after UIScene finishes its create()
+    this.scene.get('UIScene').events.once('create', () => {
+      this.scene.get('UIScene').initSignCounter(signsData.length)
+    })
 
     SaveSystem.setLastLevel(LEVEL_ID)
 

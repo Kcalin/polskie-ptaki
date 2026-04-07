@@ -48,7 +48,7 @@ export default class UIScene extends Phaser.Scene {
     this._signImages.forEach(img => img.destroy())
     this._signImages = []
     for (let i = 0; i < total; i++) {
-      const img = this.add.image(this._signStartX + i * 24, 20, 'sign_icon_empty').setOrigin(0, 0)
+      const img = this.add.image(this._signStartX + i * 21, 20, 'sign_icon_empty').setOrigin(0, 0)
       this._signImages.push(img)
     }
   }

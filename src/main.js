@@ -31,7 +31,13 @@ const config = {
   scene: [BootScene, TitleScene, Level1Scene, UIScene, TouchScene, EndScene],
 }
 
-new Phaser.Game(config)
+const game = new Phaser.Game(config)
+
+// Force scale refresh after orientation change — browser updates dimensions
+// asynchronously so Phaser's own resize handler fires too early.
+const _refreshScale = () => setTimeout(() => game.scale.refresh(), 150)
+window.addEventListener('orientationchange', _refreshScale)
+screen.orientation?.addEventListener('change', _refreshScale)
 
 // Dev helper — run in browser console to reset all saved progress:
 //   clearSave()

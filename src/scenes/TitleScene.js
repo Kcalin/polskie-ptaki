@@ -57,7 +57,9 @@ export default class TitleScene extends Phaser.Scene {
     this.add.text(width / 2, legendY + 12, 'polskieptaki.pl  •  v0.4  •  krzysztof@calinski.pl', {
       fontSize: '10px',
       fontFamily: '"Courier New", monospace',
-      color: '#888866',
+      color: '#ffdd00',
+      stroke: '#000',
+      strokeThickness: 2,
     }).setOrigin(0.5)
   }
 
